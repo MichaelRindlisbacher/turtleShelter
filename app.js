@@ -8,7 +8,7 @@ let path = require("path");
 
 let security = false;
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 app.set("view engine", "ejs");
 
@@ -23,8 +23,8 @@ const db = require("knex") ({ // Setting up connection with pg database
   connection : {
       host : process.env.RDS_HOSTNAME || "localhost",
       user : process.env.RDS_USERNAME || "postgres",
-      password : process.env.RDS_PASSWORD || "Sant1ag020",
-      database :process.env.RDS_DB_NAME || "turtle_shelter_project",
+      password : process.env.RDS_PASSWORD || "inc0rrecT123",
+      database :process.env.RDS_DB_NAME || "TURTLE_SHELTER_PROJECT",
       port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
       ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
   }
@@ -65,6 +65,7 @@ app.get('/youhelp/eventrequest', (req, res) => {
 // Handle form submission
 app.post('/submit-event', async (req, res) => {
   try {
+    // Destructure form data and convert strings to uppercase
     const {
       NumExpectedParticipants,
       activity,
@@ -75,56 +76,73 @@ app.post('/submit-event', async (req, res) => {
       EventCity,
       EventState,
       EventZip,
-      StartTime,
-      ExpectedDuration, // ExpectedDuration instead of Duration
+      StartTime1,
+      StartTime2,
+      StartTime3,
+      ExpectedDuration,
       CoordFirstName,
       CoordLastName,
       CoordPhone,
       JenStory,
     } = req.body;
 
-    // Create an array for the dates and OptionNum values
+    // Convert strings to uppercase
+    const uppercaseData = {
+      eventStreetAddress: EventStreetAddress.toUpperCase(),
+      eventCity: EventCity.toUpperCase(),
+      eventState: EventState.toUpperCase(),
+      coordFirstName: CoordFirstName.toUpperCase(),
+      coordLastName: CoordLastName.toUpperCase(),
+    };
+
+    // Insert a new coordinator row
+    const [newCoordinator] = await db('coordinator')
+      .insert(
+        {
+          coord_first_name: uppercaseData.coordFirstName,
+          coord_last_name: uppercaseData.coordLastName,
+          coord_phone: CoordPhone,
+        },
+        ['coordinator_id']
+      );
+
+    const coordinatorId = newCoordinator.coordinator_id;
+
+    // Prepare event dates and corresponding start times
     const eventDates = [
-      { date: Date1, optionNum: 1 },
-      { date: Date2, optionNum: 2 },
-      { date: Date3, optionNum: 3 },
+      { date: Date1, startTime: StartTime1, optionNum: 1 },
+      { date: Date2, startTime: StartTime2, optionNum: 2 },
+      { date: Date3, startTime: StartTime3, optionNum: 3 },
     ];
 
-    // Loop through the event dates and insert a row for each
-    for (const { date, optionNum } of eventDates) {
-      // If the date exists, insert the row into the event table
+    // Insert event rows for non-null dates
+    for (const { date, startTime, optionNum } of eventDates) {
       if (date) {
         await db('event').insert({
-          activity: activity,
-          event_street_address: EventStreetAddress,
-          event_city: EventCity,
-          event_state: EventState,
+          activity: activity.toUpperCase(),
+          event_street_address: uppercaseData.eventStreetAddress,
+          event_city: uppercaseData.eventCity,
+          event_state: uppercaseData.eventState,
           event_zip: EventZip,
           num_expected_participants: NumExpectedParticipants,
           expected_duration: ExpectedDuration,
-          date: date,
-          start_time: StartTime,
-          jen_story: JenStory,
+          date: date, // Date should already be in a valid format
+          start_time: `${date} ${startTime}:00`, // Format start_time correctly
+          jen_story: JenStory.toUpperCase(),
           option_num: optionNum,
-          coordinator_id: db
-            .select('coordinator_id')
-            .from('coordinator')
-            .where({
-              coord_first_name: CoordFirstName,
-              coord_last_name: CoordLastName,
-              coord_phone: CoordPhone,
-            }),
+          coordinator_id: coordinatorId,
         });
       }
     }
 
-    // Respond to the user (could redirect or show success page)
-    res.send('Event submitted successfully.');
+    // Redirect or show success message
+    res.redirect('/success'); // Assuming '/success' is your success route
   } catch (error) {
     console.error(error);
     res.status(500).send('An error occurred while submitting the event.');
   }
 });
+
 
 app.get('/youhelp/youhelp', (req, res) => {
     res.render('youhelp/youhelp');
@@ -133,6 +151,74 @@ app.get('/youhelp/youhelp', (req, res) => {
 app.get('/youhelp/donate', (req, res) => {
     res.render('youhelp/donate');
   });
+
+app.get('/youhelp/volunteer', (req, res) => {
+  res.render('youhelp/volunteer');
+});
+
+app.post("/volunteer", async (req, res) => {
+  try {
+      // Log the form data for debugging
+      console.log("Received form data:", req.body);
+
+      // Destructure and handle undefined values, ensuring they are in uppercase
+      const {
+          volFirstName,
+          volLastName,
+          volEmail,
+          volPhone,
+          volStreetAddress,
+          volCity,
+          volState,
+          volZip,
+          source,
+          sewingLevel,
+          numHours,
+      } = req.body;
+
+      // Ensure numHours is a valid number or fallback to 0 if invalid
+      let numHoursValue = 0;
+      if (numHours && !isNaN(numHours)) {
+          numHoursValue = parseFloat(numHours);
+      } else {
+          console.log("Invalid or empty numHours value, setting to 0");
+      }
+
+      // Prepare the data for inserting into the database
+      const uppercaseData = {
+          vol_first_name: (volFirstName || "").toUpperCase(),
+          vol_last_name: (volLastName || "").toUpperCase(),
+          vol_email: (volEmail || "").toUpperCase(),
+          vol_phone: (volPhone || "").toUpperCase(),
+          vol_street_address: (volStreetAddress || "").toUpperCase(),
+          vol_city: (volCity || "").toUpperCase(),
+          vol_state: (volState || "").toUpperCase(),
+          vol_zip: (volZip || "").toUpperCase(),
+          source: (source || "").toUpperCase(),
+          sewing_level: (sewingLevel || "").toUpperCase(),
+          num_hours: numHoursValue, // Ensure it's a valid number or 0
+      };
+
+      // Log the data to be inserted for debugging
+      console.log("Data to be inserted into the database:", uppercaseData);
+
+      // Insert data into the 'volunteer' table and return the volunteer_id
+      const volunteerID = await db("volunteer")
+          .insert(uppercaseData)
+          .returning("volunteer_id");
+
+      console.log(`Volunteer added with ID: ${volunteerID}`);
+      res.redirect("/success");
+  } catch (error) {
+      console.error("Error adding volunteer:", error);
+      res.status(500).send("An error occurred while adding the volunteer.");
+  }
+});
+
+
+app.get("/success", (req, res) => {
+  res.render("success"); // This renders the success.ejs file
+});
 
 app.get('/youhelp/upcoming', (req, res) => {
     res.render('youhelp/upcoming');
