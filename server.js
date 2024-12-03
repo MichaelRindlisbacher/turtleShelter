@@ -54,12 +54,12 @@ app.get('/story', (req, res) => {
     res.render('story');
   });
 
-app.get('/about', (req, res) => {
-    res.render('about');
+app.get('/about/about', (req, res) => {
+    res.render('about/about');
   });
 
-app.get('/eventrequest', (req, res) => {
-    res.render('eventrequest');
+app.get('/youhelp/eventrequest', (req, res) => {
+    res.render('youhelp/eventrequest');
   });
 
 // Handle form submission
@@ -126,12 +126,16 @@ app.post('/submit-event', async (req, res) => {
   }
 });
 
-app.get('/youhelp', (req, res) => {
-    res.render('youhelp');
+app.get('/youhelp/youhelp', (req, res) => {
+    res.render('youhelp/youhelp');
   });
 
-app.get('/donate', (req, res) => {
-    res.render('donate');
+app.get('/youhelp/donate', (req, res) => {
+    res.render('youhelp/donate');
+  });
+
+app.get('/youhelp/upcoming', (req, res) => {
+    res.render('youhelp/upcoming');
   });
 
 app.get('/test', (req, res) => {
