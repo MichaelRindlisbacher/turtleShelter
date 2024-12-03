@@ -67,6 +67,39 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Add styles for the dropdown menu */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-menu li {
+  padding: 12px 16px;
+  display: block;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.youhelp-dropdown {
+  right: 0;
+}
+
+@media (max-width: 768px) {
+  .dropdown-menu {
+    right: 0;
+  }
+}
+
 .intro {
   display: flex;
   height: auto;
