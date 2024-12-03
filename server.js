@@ -62,93 +62,68 @@ app.get('/eventrequest', (req, res) => {
     res.render('eventrequest');
   });
 
-  app.post('/submit-event', async (req, res) => {
-    try {
-        // Extract event data from the request body
-        const {
-            NumExpectedParticipants,
-            activity,
-            Date1,
-            StartTime1,
-            Date2,
-            StartTime2,
-            Date3,
-            StartTime3,
-            EventStreetAddress,
-            EventCity,
-            EventState,
-            EventZip,
-            ExpectedDuration,
-            CoordFirstName,
-            CoordLastName,
-            CoordPhone,
-            JenStory
-        } = req.body;
+// Handle form submission
+app.post('/submit-event', async (req, res) => {
+  try {
+    const {
+      NumExpectedParticipants,
+      activity,
+      Date1,
+      Date2,
+      Date3,
+      EventStreetAddress,
+      EventCity,
+      EventState,
+      EventZip,
+      StartTime,
+      ExpectedDuration, // ExpectedDuration instead of Duration
+      CoordFirstName,
+      CoordLastName,
+      CoordPhone,
+      JenStory,
+    } = req.body;
 
-        // Convert inputs to uppercase where applicable
-        const eventDetails = {
-            NumExpectedParticipants,
-            activity: activity.toUpperCase(),
-            EventStreetAddress: EventStreetAddress.toUpperCase(),
-            EventCity: EventCity.toUpperCase(),
-            EventState: EventState.toUpperCase(),
-            EventZip: EventZip,
-            ExpectedDuration,
-            CoordFirstName: CoordFirstName.toUpperCase(),
-            CoordLastName: CoordLastName.toUpperCase(),
-            CoordPhone: CoordPhone.toUpperCase(),
-            JenStory: JenStory.toUpperCase()
-        };
+    // Create an array for the dates and OptionNum values
+    const eventDates = [
+      { date: Date1, optionNum: 1 },
+      { date: Date2, optionNum: 2 },
+      { date: Date3, optionNum: 3 },
+    ];
 
-        // Prepare SQL query to insert shared event details and associated dates/times
-        const eventQuery = `
-            INSERT INTO Events (
-                NumExpectedParticipants, Activity, EventStreetAddress, EventCity,
-                EventState, EventZip, ExpectedDuration, CoordFirstName, CoordLastName,
-                CoordPhone, JenStory
-            )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-            RETURNING EventID
-        `;
-        const eventValues = [
-            eventDetails.NumExpectedParticipants,
-            eventDetails.activity,
-            eventDetails.EventStreetAddress,
-            eventDetails.EventCity,
-            eventDetails.EventState,
-            eventDetails.EventZip,
-            eventDetails.ExpectedDuration,
-            eventDetails.CoordFirstName,
-            eventDetails.CoordLastName,
-            eventDetails.CoordPhone,
-            eventDetails.JenStory
-        ];
-
-        // Insert the event and get the EventID
-        const eventResult = await db.query(eventQuery, eventValues);
-        const eventID = eventResult.rows[0].eventid;
-
-        // Insert associated dates and times into the EventDates table
-        const dateQuery = `
-            INSERT INTO EventDates (EventID, EventDate, StartTime)
-            VALUES ($1, $2, $3)
-        `;
-        const dateValues = [];
-
-        if (Date1 && StartTime1) dateValues.push([eventID, Date1.toUpperCase(), StartTime1.toUpperCase()]);
-        if (Date2 && StartTime2) dateValues.push([eventID, Date2.toUpperCase(), StartTime2.toUpperCase()]);
-        if (Date3 && StartTime3) dateValues.push([eventID, Date3.toUpperCase(), StartTime3.toUpperCase()]);
-
-        for (const [eventId, date, time] of dateValues) {
-            await db.query(dateQuery, [eventId, date, time]);
-        }
-
-        // Redirect to a confirmation page or success message
-        res.redirect('/event-confirmation');
-    } catch (error) {
-        console.error('Error inserting event:', error);
-        res.status(500).send('An error occurred while submitting the event.');
+    // Loop through the event dates and insert a row for each
+    for (const { date, optionNum } of eventDates) {
+      // If the date exists, insert the row into the event table
+      if (date) {
+        await db('event').insert({
+          activity: activity,
+          event_street_address: EventStreetAddress,
+          event_city: EventCity,
+          event_state: EventState,
+          event_zip: EventZip,
+          num_expected_participants: NumExpectedParticipants,
+          expected_duration: ExpectedDuration,
+          date: date,
+          start_time: StartTime,
+          jen_story: JenStory,
+          option_num: optionNum,
+          coordinator_id: db
+            .select('coordinator_id')
+            .from('coordinator')
+            .where({
+              coord_first_name: CoordFirstName,
+              coord_last_name: CoordLastName,
+              coord_phone: CoordPhone,
+            }),
+        });
+      }
     }
+
+    // Respond to the user (could redirect or show success page)
+    res.send('Event submitted successfully.');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred while submitting the event.');
+  }
 });
 
 app.get('/youhelp', (req, res) => {
