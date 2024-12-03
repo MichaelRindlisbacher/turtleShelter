@@ -120,13 +120,13 @@ app.post('/login', async (req, res) => {
   if (results.length > 0) {
     // If the credentials are correct, redirect the user to the admin page
     req.session.isAdmin = true; // Set a session variable to indicate admin status
-    res.redirect('/test.ejs');
+    res.redirect('/test');
   } else {
     res.render('login', { error: 'Invalid credentials' });
   }
 });
 
-app.get('/test.ejs', (req, res) => {
+app.get('/test', (req, res) => {
   if (req.session.isAdmin) {
       res.render(path.join(__dirname, 'views', 'test.ejs'));
   } else {
