@@ -17,10 +17,25 @@
           <ul class="nav-links">
             <li><a href="/">Home</a></li>
             <li><a href="/story">Jen's Story</a></li>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/youhelp">How You Can Help</a></li>
-            <li><a href="/eventrequest">Request an Event</a></li>
-            <li><a href="/donate">Donate</a></li>
+            <li class="dropdown">
+              <a href="/about" class="dropdown-toggle">About Us</a>
+              <ul class="dropdown-menu">
+                <!-- Add links to the dropdown menu -->
+                <li><a href="/about/about">Our Team</a></li>
+                <li><a href="/about/about">Our Mission</a></li>
+                <li><a href="/about/about">Contact Us</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="/youhelp" class="dropdown-toggle">Get Involved</a>
+              <ul class="dropdown-menu youhelp-dropdown">
+                <!-- Add links to the dropdown menu -->
+                <li><a href="/youhelp/donate">Donate</a></li>
+                <li><a href="/youhelp/eventrequest">Request an Event</a></li>
+                <li><a href="/youhelp/youhelp">Other Ways to Help</a></li>
+              </ul>
+            </li>
+            <!-- RUNNING COUNT OF DISTRIBUTED VESTS????? -->
           </ul>
       </nav>
     </header>
