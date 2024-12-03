@@ -8,7 +8,7 @@ let path = require("path");
 
 let security = false;
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 app.set("view engine", "ejs");
 
@@ -23,8 +23,8 @@ const db = require("knex") ({ // Setting up connection with pg database
   connection : {
       host : process.env.RDS_HOSTNAME || "localhost",
       user : process.env.RDS_USERNAME || "postgres",
-      password : process.env.RDS_PASSWORD || "Sant1ag020",
-      database :process.env.RDS_DB_NAME || "turtle_shelter_project",
+      password : process.env.RDS_PASSWORD || "inc0rrecT123",
+      database :process.env.RDS_DB_NAME || "TURTLE_SHELTER_PROJECT",
       port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
       ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
   }
@@ -133,6 +133,74 @@ app.get('/youhelp/youhelp', (req, res) => {
 app.get('/youhelp/donate', (req, res) => {
     res.render('youhelp/donate');
   });
+
+app.get('/youhelp/volunteer', (req, res) => {
+  res.render('youhelp/volunteer');
+});
+
+app.post("/volunteer", async (req, res) => {
+  try {
+      // Log the form data for debugging
+      console.log("Received form data:", req.body);
+
+      // Destructure and handle undefined values, ensuring they are in uppercase
+      const {
+          volFirstName,
+          volLastName,
+          volEmail,
+          volPhone,
+          volStreetAddress,
+          volCity,
+          volState,
+          volZip,
+          source,
+          sewingLevel,
+          numHours,
+      } = req.body;
+
+      // Ensure numHours is a valid number or fallback to 0 if invalid
+      let numHoursValue = 0;
+      if (numHours && !isNaN(numHours)) {
+          numHoursValue = parseFloat(numHours);
+      } else {
+          console.log("Invalid or empty numHours value, setting to 0");
+      }
+
+      // Prepare the data for inserting into the database
+      const uppercaseData = {
+          vol_first_name: (volFirstName || "").toUpperCase(),
+          vol_last_name: (volLastName || "").toUpperCase(),
+          vol_email: (volEmail || "").toUpperCase(),
+          vol_phone: (volPhone || "").toUpperCase(),
+          vol_street_address: (volStreetAddress || "").toUpperCase(),
+          vol_city: (volCity || "").toUpperCase(),
+          vol_state: (volState || "").toUpperCase(),
+          vol_zip: (volZip || "").toUpperCase(),
+          source: (source || "").toUpperCase(),
+          sewing_level: (sewingLevel || "").toUpperCase(),
+          num_hours: numHoursValue, // Ensure it's a valid number or 0
+      };
+
+      // Log the data to be inserted for debugging
+      console.log("Data to be inserted into the database:", uppercaseData);
+
+      // Insert data into the 'volunteer' table and return the volunteer_id
+      const volunteerID = await db("volunteer")
+          .insert(uppercaseData)
+          .returning("volunteer_id");
+
+      console.log(`Volunteer added with ID: ${volunteerID}`);
+      res.redirect("/success");
+  } catch (error) {
+      console.error("Error adding volunteer:", error);
+      res.status(500).send("An error occurred while adding the volunteer.");
+  }
+});
+
+
+app.get("/success", (req, res) => {
+  res.render("success"); // This renders the success.ejs file
+});
 
 app.get('/youhelp/upcoming', (req, res) => {
     res.render('youhelp/upcoming');
