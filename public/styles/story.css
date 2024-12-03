@@ -2,23 +2,24 @@
   font-family: 'Montserrat', serif;
   font-size: 18px;
   line-height: 1.5;
+  position: relative;
 }
 
 .story h1 {
-  background-image: url('/images/jenstory.jpg'); /* replace with your image URL */
-  background-size: cover;
-  background-position: center;
-  padding: 200px;
-  text-align: center;
-  color: #fff;
-}
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/jenstory.jpg'); /* replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    padding: 200px;
+    text-align: center;
+    color: #fff;
+  }
 
 .story img {
   float: left;
   margin: 10px;
   padding-left: 5%;
   padding-right: 2%;
-  width: 100px; /* adjust the width as needed */
+  width: 300px; /* adjust the width as needed */
   height: auto;
 }
 
