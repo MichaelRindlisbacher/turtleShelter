@@ -27,7 +27,7 @@
 
     <div class="form-container">
         <h1>Request an Event</h1>
-        <form action="/submit-event" method="POST">
+        <form action="/submit-event" method="POST" onsubmit="validateForm(event)">
             <!-- Event Information Section -->
             <section class="form-section">
                 <h2>Event Details</h2>
@@ -111,24 +111,25 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="CoordPhone">Coordinator Phone</label>
+                    <label for="CoordPhone">Coordinator Phone Number</label>
                     <input type="text" id="CoordPhone" name="CoordPhone" required>
                 </div>
             </section>
 
+            <!-- Optional Sections -->
             <section class="form-section">
-                <h2>Jen's Story</h2>
+                <h2>Do you want Jen to share her story?</h2>
                 <div class="form-group">
-                    <label for="JenStory">Would you like Jen to share her story? (Y/N)</label><br>
-                    <input type="radio" id="Y" name="JenStory" value="Y"> Yes
-                    <input type="radio" id="N" name="JenStory" value="N"> No
+                    <input type="radio" id="JenStoryYes" name="JenStory" value="Y" required>
+                    <label for="JenStoryYes">Yes</label>
+                    <input type="radio" id="JenStoryNo" name="JenStory" value="N">
+                    <label for="JenStoryNo">No</label>
                 </div>
-            </section>
+            </section>            
 
+            <!-- Submit Button -->
             <button type="submit">Submit Event</button>
         </form>
     </div>
-
-    <script src="/scripts/script.js"></script>
 </body>
 </html>
