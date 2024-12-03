@@ -65,6 +65,7 @@ app.get('/youhelp/eventrequest', (req, res) => {
 // Handle form submission
 app.post('/submit-event', async (req, res) => {
   try {
+    // Destructure form data and convert strings to uppercase
     const {
       NumExpectedParticipants,
       activity,
@@ -75,56 +76,73 @@ app.post('/submit-event', async (req, res) => {
       EventCity,
       EventState,
       EventZip,
-      StartTime,
-      ExpectedDuration, // ExpectedDuration instead of Duration
+      StartTime1,
+      StartTime2,
+      StartTime3,
+      ExpectedDuration,
       CoordFirstName,
       CoordLastName,
       CoordPhone,
       JenStory,
     } = req.body;
 
-    // Create an array for the dates and OptionNum values
+    // Convert strings to uppercase
+    const uppercaseData = {
+      eventStreetAddress: EventStreetAddress.toUpperCase(),
+      eventCity: EventCity.toUpperCase(),
+      eventState: EventState.toUpperCase(),
+      coordFirstName: CoordFirstName.toUpperCase(),
+      coordLastName: CoordLastName.toUpperCase(),
+    };
+
+    // Insert a new coordinator row
+    const [newCoordinator] = await db('coordinator')
+      .insert(
+        {
+          coord_first_name: uppercaseData.coordFirstName,
+          coord_last_name: uppercaseData.coordLastName,
+          coord_phone: CoordPhone,
+        },
+        ['coordinator_id']
+      );
+
+    const coordinatorId = newCoordinator.coordinator_id;
+
+    // Prepare event dates and corresponding start times
     const eventDates = [
-      { date: Date1, optionNum: 1 },
-      { date: Date2, optionNum: 2 },
-      { date: Date3, optionNum: 3 },
+      { date: Date1, startTime: StartTime1, optionNum: 1 },
+      { date: Date2, startTime: StartTime2, optionNum: 2 },
+      { date: Date3, startTime: StartTime3, optionNum: 3 },
     ];
 
-    // Loop through the event dates and insert a row for each
-    for (const { date, optionNum } of eventDates) {
-      // If the date exists, insert the row into the event table
+    // Insert event rows for non-null dates
+    for (const { date, startTime, optionNum } of eventDates) {
       if (date) {
         await db('event').insert({
-          activity: activity,
-          event_street_address: EventStreetAddress,
-          event_city: EventCity,
-          event_state: EventState,
+          activity: activity.toUpperCase(),
+          event_street_address: uppercaseData.eventStreetAddress,
+          event_city: uppercaseData.eventCity,
+          event_state: uppercaseData.eventState,
           event_zip: EventZip,
           num_expected_participants: NumExpectedParticipants,
           expected_duration: ExpectedDuration,
-          date: date,
-          start_time: StartTime,
-          jen_story: JenStory,
+          date: date, // Date should already be in a valid format
+          start_time: `${date} ${startTime}:00`, // Format start_time correctly
+          jen_story: JenStory.toUpperCase(),
           option_num: optionNum,
-          coordinator_id: db
-            .select('coordinator_id')
-            .from('coordinator')
-            .where({
-              coord_first_name: CoordFirstName,
-              coord_last_name: CoordLastName,
-              coord_phone: CoordPhone,
-            }),
+          coordinator_id: coordinatorId,
         });
       }
     }
 
-    // Respond to the user (could redirect or show success page)
-    res.send('Event submitted successfully.');
+    // Redirect or show success message
+    res.redirect('/success'); // Assuming '/success' is your success route
   } catch (error) {
     console.error(error);
     res.status(500).send('An error occurred while submitting the event.');
   }
 });
+
 
 app.get('/youhelp/youhelp', (req, res) => {
     res.render('youhelp/youhelp');
