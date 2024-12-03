@@ -160,6 +160,11 @@ app.get('/donate', (req, res) => {
   });
 
 app.get('/test', (req, res) => {
+  if (req.session.isAdmin) {
+    res.render(path.join(__dirname, 'views', 'test.ejs'));
+  } else {
+    res.redirect('/login');
+  }
   db('event')
       .select(
         'event_id',
@@ -212,13 +217,5 @@ app.post('/login', async (req, res) => {
     res.redirect('/test');
   } else {
     res.render('login', { error: 'Invalid credentials' });
-  }
-});
-
-app.get('/test', (req, res) => {
-  if (req.session.isAdmin) {
-      res.render(path.join(__dirname, 'views', 'test.ejs'));
-  } else {
-      res.redirect('/login');
   }
 });
