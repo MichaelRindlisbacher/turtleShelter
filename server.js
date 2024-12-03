@@ -23,8 +23,8 @@ const db = require("knex") ({ // Setting up connection with pg database
   connection : {
       host : process.env.RDS_HOSTNAME || "localhost",
       user : process.env.RDS_USERNAME || "postgres",
-      password : process.env.RDS_PASSWORD || "Btarwars12",
-      database :process.env.RDS_DB_NAME || "TURTLE_SHELTER_PROJECT",
+      password : process.env.RDS_PASSWORD || "Sant1ag020",
+      database :process.env.RDS_DB_NAME || "turtle_shelter_project",
       port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
       ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
   }
@@ -161,11 +161,7 @@ app.get('/donate', (req, res) => {
 
 app.get('/test', (req, res) => {
   if (req.session.isAdmin) {
-    res.render(path.join(__dirname, 'views', 'test.ejs'));
-  } else {
-    res.redirect('/login');
-  }
-  db('event')
+    db('event')
       .select(
         'event_id',
         'activity',
@@ -198,6 +194,9 @@ app.get('/test', (req, res) => {
     console.error('Error querying database:', error);
     res.status(500).send('Internal Server Error');
   });
+  } else {
+    res.redirect('/login');
+  }
 });
 
 app.listen(port, () => {
