@@ -16,16 +16,17 @@ app.use(express.urlencoded({extended: true}));
 
 app.use(express.static(path.join(__dirname, "public")));
 
-const db = require('knex') ({
-    client: 'pg',
-    connection: {
-        host     : '127.0.0.1',
-        user     : 'postgres',
-        password : 'w3lc0m3!',
-        database : 'turtle_shelter_project',
-        port: 5432
-    }
-});
+const db = require("knex") ({ // Setting up connection with pg database
+  client : "pg",
+  connection : {
+      host : process.env.RDS_HOSTNAME || "localhost",
+      user : process.env.RDS_USERNAME || "postgres",
+      password : process.env.RDS_PASSWORD || "password",
+      database :process.env.RDS_DB_NAME || "assignment3",
+      port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
+      ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
+  }
+})
 
 db.raw('SELECT 1').then(() => {
     console.log('Database connected successfully');
