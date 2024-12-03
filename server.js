@@ -2,6 +2,8 @@ let express = require("express");
 
 let app = express();
 
+const session = require('express-session'); // imports the session class
+
 let path = require("path");
 
 let security = false;
@@ -21,12 +23,18 @@ const db = require("knex") ({ // Setting up connection with pg database
   connection : {
       host : process.env.RDS_HOSTNAME || "localhost",
       user : process.env.RDS_USERNAME || "postgres",
-      password : process.env.RDS_PASSWORD || "password",
-      database :process.env.RDS_DB_NAME || "assignment3",
+      password : process.env.RDS_PASSWORD || "Btarwars12",
+      database :process.env.RDS_DB_NAME || "TURTLE_SHELTER_PROJECT",
       port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
       ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
   }
 })
+
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true
+}));
 
 db.raw('SELECT 1').then(() => {
     console.log('Database connected successfully');
@@ -100,4 +108,28 @@ app.get('/test', (req, res) => {
 
 app.listen(port, () => {
     console.log(`Server is running`);
+});
+
+app.post('/login', async (req, res) => {
+  console.log('Login form submitted!');
+  const { username, password } = req.body;
+
+  // Query your Postgres database to verify the credentials
+  const results = await db('credentials').where({ username, password });
+
+  if (results.length > 0) {
+    // If the credentials are correct, redirect the user to the admin page
+    req.session.isAdmin = true; // Set a session variable to indicate admin status
+    res.redirect('/test.ejs');
+  } else {
+    res.render('login', { error: 'Invalid credentials' });
+  }
+});
+
+app.get('/test.ejs', (req, res) => {
+  if (req.session.isAdmin) {
+      res.render(path.join(__dirname, 'views', 'test.ejs'));
+  } else {
+      res.redirect('/login');
+  }
 });
