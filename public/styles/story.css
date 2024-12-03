@@ -1,0 +1,29 @@
+.story {
+  font-family: 'Montserrat', serif;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.story h1 {
+  background-image: url('/images/jenstory.jpg'); /* replace with your image URL */
+  background-size: cover;
+  background-position: center;
+  padding: 200px;
+  text-align: center;
+  color: #fff;
+}
+
+.story img {
+  float: left;
+  margin: 10px;
+  padding-left: 5%;
+  padding-right: 2%;
+  width: 100px; /* adjust the width as needed */
+  height: auto;
+}
+
+.story p {
+    font-family: 'Merriweather', serif;
+    padding-left: 5%;
+    padding-right: 5%;
+}
