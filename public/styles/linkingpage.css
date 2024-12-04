@@ -78,7 +78,10 @@ p {
 }
 
 .sidebar ul li a.active {
-  background-color: gray; /* or any other color you prefer */
-  color: black; /* or any other color you prefer */
+  color: #1ABC9C; /* or any other color you prefer */
   font-weight: bold;
+}
+
+.sidebar ul li a.active:hover {
+  color: #0097A7;
 }
