@@ -9,7 +9,7 @@ let path = require("path");
 
 let security = false;
 
-const port = process.env.PORT || 5002;
+const port = process.env.PORT || 5004;
 
 // configuration
 app.set("view engine", "ejs");
@@ -480,6 +480,128 @@ app.post('/event/:id/delete', async (req, res) => {
   } catch (error) {
     console.error('Error deleting event:', error);
     res.status(500).send('Error deleting event');
+  }
+});
+
+app.get('/adminvolunteer', async (req, res) => {
+  try {
+    // Fetch all volunteers, ordered by volunteer_id
+    const volunteers = await db('volunteer').orderBy('volunteer_id', 'asc');
+
+    // Render the adminvolunteer page with the fetched data
+    res.render('adminvolunteer', { volunteers });
+  } catch (error) {
+    // Log the error and render an error page
+    console.error('Error fetching volunteers:', error);
+
+  }
+});
+
+app.get('/viewvolunteer/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Fetch the volunteer by ID
+    const volunteer = await db('volunteer').where({ volunteer_id: id }).first();
+
+    if (!volunteer) {
+      return res.status(404).send('Volunteer not found');
+    }
+
+    // Render the volunteer details page
+    res.render('viewvolunteer', { volunteer });
+  } catch (error) {
+    console.error('Error fetching volunteer:', error);
+    res.status(500).send('An error occurred while fetching the volunteer.');
+  }
+});
+
+
+// Route to display the edit volunteer form
+app.get('/editvolunteer/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Fetch the volunteer by ID
+    const volunteer = await db('volunteer').where({ volunteer_id: id }).first();
+    
+    // Fetch the available source options (assuming the source options are stored somewhere in the database)
+    const sources = ['Website', 'Social Media', 'Flyer', 'Referral', 'Other'];
+
+    if (!volunteer) {
+      return res.status(404).send('Volunteer not found');
+    }
+
+    // Render the volunteer edit page
+    res.render('editvolunteer', { volunteer, sources });
+  } catch (error) {
+    console.error('Error fetching volunteer:', error);
+    res.status(500).send('An error occurred while fetching the volunteer.');
+  }
+});
+
+
+
+app.post('/editvolunteer/:id/edit', async (req, res) => {
+  const { id } = req.params;
+  const {
+    vol_first_name,
+    vol_last_name,
+    vol_email,
+    vol_phone,
+    vol_street_address,
+    vol_city,
+    vol_state,
+    vol_zip,
+    source,
+    sewing_level,
+    num_hours,
+  } = req.body;
+
+  try {
+    // Convert all form data to uppercase before saving
+    const updatedVolunteer = {
+      vol_first_name: vol_first_name.toUpperCase(),
+      vol_last_name: vol_last_name.toUpperCase(),
+      vol_email: vol_email.toUpperCase(),
+      vol_phone: vol_phone.toUpperCase(),
+      vol_street_address: vol_street_address.toUpperCase(),
+      vol_city: vol_city.toUpperCase(),
+      vol_state: vol_state.toUpperCase(),
+      vol_zip: vol_zip.toUpperCase(),
+      source: source.toUpperCase(),
+      sewing_level: sewing_level.toUpperCase(),
+      num_hours,
+    };
+
+    // Update the volunteer information in the database
+    await db('volunteer')
+      .where({ volunteer_id: id })
+      .update(updatedVolunteer);
+
+    // Redirect to the volunteer list or another page
+    res.redirect('/adminvolunteer');
+  } catch (error) {
+    console.error('Error updating volunteer:', error);
+    res.status(500).send('An error occurred while updating the volunteer.');
+  }
+});
+
+
+
+// Route to delete a volunteer
+app.post('/deletevolunteer/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Delete the volunteer by ID
+    await db('volunteer').where({ volunteer_id: id }).del();
+
+    // Redirect back to the admin volunteer page or show a success message
+    res.redirect('/adminvolunteer');
+  } catch (error) {
+    console.error('Error deleting volunteer:', error);
+    res.status(500).send('An error occurred while deleting the volunteer.');
   }
 });
 

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volunteer Details</title>
+  <link rel="stylesheet" href="/public/styles.css">
+</head>
+<body>
+
+  <div class="volunteer-card">
+    <h2>Volunteer Details</h2>
+    <table class="volunteer-table">
+      <tr>
+        <th>First Name</th>
+        <td><%= volunteer.vol_first_name %></td>
+      </tr>
+      <tr>
+        <th>Last Name</th>
+        <td><%= volunteer.vol_last_name %></td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td><%= volunteer.vol_email %></td>
+      </tr>
+      <tr>
+        <th>Phone</th>
+        <td><%= volunteer.vol_phone %></td>
+      </tr>
+      <tr>
+        <th>Address</th>
+        <td><%= volunteer.vol_street_address %>, <%= volunteer.vol_city %>, <%= volunteer.vol_state %> <%= volunteer.vol_zip %></td>
+      </tr>
+      <tr>
+        <th>Source</th>
+        <td><%= volunteer.source %></td>
+      </tr>
+      <tr>
+        <th>Sewing Level:</th>
+        <td>
+          <%= 
+            (volunteer.sewing_level === 'B' ? 'BEGINNER' : 
+            (volunteer.sewing_level === 'I' ? 'INTERMEDIATE' : 
+            (volunteer.sewing_level === 'A' ? 'ADVANCED' : 'UNKOWN')))
+          %>
+        </td>
+      </tr>   
+      <tr>
+        <th>Number of Hours</th>
+        <td><%= volunteer.num_hours %></td>
+      </tr>
+    </table>
+
+    <!-- Buttons to Edit or Delete -->
+    <div class="volunteer-actions">
+        <a href="/adminvolunteer" class="button">Back to Volunteers List</a>
+    </div>
+  </div>
+
+</body>
+</html>
