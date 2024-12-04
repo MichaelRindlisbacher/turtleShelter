@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Event</title>
+  <link rel="stylesheet" href="/styles.css"> <!-- Link to the external CSS file -->
+  <style>
+    /* Event Details Styling */
+.event-details {
+  margin: 20px 0;
+}
+
+.detail-group {
+  margin-bottom: 10px;
+}
+
+.detail-label {
+  font-weight: bold;
+  display: inline-block;
+  width: 180px;
+}
+
+.detail-value {
+  display: inline-block;
+  color: #555;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Event Details</h1>
+    <div class="event-details">
+      <div class="detail-group">
+        <span class="detail-label">Activity:</span>
+        <span class="detail-value">
+          <% if (event.activity === 'S') { %>Sewing<% } else if (event.activity === 'N') { %>Non-sewing<% } else { %>Both<% } %>
+        </span>
+      </div>
+
+      <div class="detail-group">
+        <span class="detail-label">Event Street Address:</span>
+        <span class="detail-value"><%= event.event_street_address %></span>
+      </div>
+
+      <div class="detail-group">
+        <span class="detail-label">City:</span>
+        <span class="detail-value"><%= event.event_city %></span>
+      </div>
+
+      <div class="detail-group">
+        <span class="detail-label">State:</span>
+        <span class="detail-value"><%= event.event_state %></span>
+      </div>
+
+      <div class="detail-group">
+        <span class="detail-label">Zip Code:</span>
+        <span class="detail-value"><%= event.event_zip %></span>
+      </div>
+
+      <div class="detail-group">
+        <span class="detail-label">Expected Participants:</span>
+        <span class="detail-value"><%= event.num_expected_participants %></span>
+      </div>
+
+      <div class="detail-group">
+        <span class="detail-label">Expected Duration (hours):</span>
+        <span class="detail-value"><%= event.expected_duration %></span>
+      </div>
+
+      <div class="detail-group" hidden>
+        <span class="detail-label">Option Number:</span>
+        <span class="detail-value"><%= event.option_num %></span>
+      </div>
+
+      <div class="detail-group">
+        <span class="detail-label">Event Date:</span>
+        <span class="detail-value"><%= new Date(event.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %></span>
+        <p><b>Approved Date and Time:</b>
+
+      </div>
+
+      <div class="detail-group">
+        <span class="detail-label">Start Time:</span>
+        <span class="detail-value"><%= new Date(event.start_time).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) %> (<%= new Date(event.start_time).toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ')[2] %>)</span>
+      </div>
+
+      <div class="detail-group">
+        <span class="detail-label">Jen Story:</span>
+        <span class="detail-value"><%= event.jen_story === 'Y' ? 'Yes' : 'No' %></span>
+      </div>
+        
+
+      <div class="detail-group">
+        <span class="detail-label">Status:</span>
+        <span class="detail-value"><%= event.status %></span>
+      </div>
+
+      <div class="detail-group">
+        <span class="detail-label">Number of Team Members:</span>
+        <span class="detail-value"><%= event.num_team_members %></span>
+      </div>
+    </div>
+    <a href="/events" class="btn">Back to Events</a>
+  </div>
+</body>
+</html>

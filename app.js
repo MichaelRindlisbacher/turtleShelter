@@ -9,7 +9,7 @@ let path = require("path");
 
 let security = false;
 
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5002;
 
 // configuration
 app.set("view engine", "ejs");
@@ -266,46 +266,218 @@ app.get("/success", (req, res) => {
   res.render("success");
 });
 
-// get the test page (admin view)
+app.get('/youhelp/upcoming', (req, res) => {
+    res.render('youhelp/upcoming');
+  });
+
 app.get('/test', (req, res) => {
   if (req.session.isAdmin) {
     db('event')
       .select(
-        'event_id',
-        'activity',
-        'event_street_address',
-        'event_city',
-        'event_state',
-        'event_zip',
-        'num_expected_participants',
-        'expected_duration',
-        'option_num',
-        'date',
-        'start_time',
-        'jen_story',
-        'num_actual_participants',
-        'actual_duration',
-        'num_pockets',
-        'num_collars',
-        'num_envelopes',
-        'num_vests',
-        'total_products',
-        'status',
-        'num_team_members',
-        'date_created',
-        'coordinator_id'
-      ).then((events) => {
-        res.render('test', { events });
+        'event.event_id',
+        'event.activity',
+        'event.event_street_address',
+        'event.event_city',
+        'event.event_state',
+        'event.event_zip',
+        'event.num_expected_participants',
+        'event.expected_duration',
+        'event.option_num',
+        'event.date',
+        'event.start_time',
+        'event.jen_story',
+        'event.num_actual_participants',
+        'event.actual_duration',
+        'event.num_pockets',
+        'event.num_collars',
+        'event.num_envelopes',
+        'event.num_vests',
+        'event.total_products',
+        'event.status',
+        'event.num_team_members',
+        'event.date_created',
+        'event.coordinator_id',
+        'coordinator.coord_first_name',
+        'coordinator.coord_last_name',
+        'coordinator.coord_phone'
+      )
+      .join('coordinator', 'event.coordinator_id', '=', 'coordinator.coordinator_id') // Join event table with coordinator table
+      .orderBy('event.date_created', 'desc')
+      .then((events) => {
+        // Group events by location (street address, city, state, zip) and status
+        console.log(events); // Check if coordinator fields are in the result
+        const groupedEvents = {};
+
+        events.forEach((event) => {
+          const locationKey = `${event.event_street_address}-${event.event_city}-${event.event_state}-${event.event_zip}`;
+          const status = event.status;
+
+          if (!groupedEvents[status]) {
+            groupedEvents[status] = [];
+          }
+
+          // Group events by location
+          const locationGroup = groupedEvents[status].find(group => group.locationKey === locationKey);
+          if (!locationGroup) {
+            groupedEvents[status].push({
+              locationKey: locationKey,
+              events: [event]
+            });
+          } else {
+            locationGroup.events.push(event);
+          }
+        });
+
+        // Render the grouped events in the EJS template
+        res.render('events', { groupedEvents });
       })
-    // Render the test.ejs template and pass the data
-  .catch((error) => {
-    console.error('Error querying database:', error);
-    res.status(500).send('Internal Server Error');
-  });
+      .catch((error) => {
+        console.error('Error querying database:', error);
+        res.status(500).send('Internal Server Error');
+      });
   } else {
-    res.redirect('/login');
+    res.redirect('/login'); // Redirect if not admin
   }
 });
+
+
+// // Route to update the event status
+// app.post('/event/:id/:action', (req, res) => {
+//   const eventId = req.params.id;
+//   const action = req.params.action;
+
+//   let newStatus;
+//   switch (action) {
+//     case 'accept':
+//       newStatus = 'APPROVED';
+//       break;
+//     case 'decline':
+//       newStatus = 'DECLINED';
+//       break;
+//     case 'completed':
+//       newStatus = 'COMPLETED';
+//       break;
+//     default:
+//       return res.status(400).send('Invalid action');
+//   }
+
+//   // Update the event status in the database
+//   db('event')
+//     .where('event_id', eventId)
+//     .update({ status: newStatus })
+//     .then(() => {
+//       res.redirect('/events'); // Redirect back to the events page after updating
+//     })
+//     .catch((error) => {
+//       console.error('Error updating event status:', error);
+//       res.status(500).send('Internal Server Error');
+//     });
+// });
+
+// Route to view a single event
+app.get('/event/:id', (req, res) => {
+  const eventId = req.params.id;
+
+  db('event')
+  .join('coordinator', 'event.coordinator_id', '=', 'coordinator.coordinator_id')
+  .where('event.event_id', eventId)
+  .select(
+    'event.*',
+    'coordinator.coord_first_name',  // Use the actual column name
+    'coordinator.coord_last_name',
+    'coordinator.coord_phone',
+  )
+  .then((event) => {
+    if (event.length === 0) {
+      return res.status(404).send('Event not found');
+    }
+
+    res.render('viewevent', { event: event[0] });
+  })
+  .catch((error) => {
+    console.error('Error fetching event details:', error);
+    res.status(500).send('Internal Server Error');
+  });
+});
+
+app.get('/event/:id/edit', (req, res) => {
+  const eventId = req.params.id;
+
+  db('event')
+    .where('event_id', eventId)
+    .first()
+    .then(event => {
+      if (event) {
+        res.render('editEvent', { event });
+      } else {
+        res.status(404).send('Event not found');
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching event:', error);
+      res.status(500).send('Error fetching event');
+    });
+});
+
+
+app.post('/event/:id/edit', (req, res) => {
+  const eventId = req.params.id;
+
+  // Ensure that all fields are properly set
+  const updatedEvent = {
+    activity: req.body.activity,
+    event_street_address: req.body.event_street_address,
+    event_city: req.body.event_city,
+    event_state: req.body.event_state,
+    event_zip: req.body.event_zip,
+    num_expected_participants: req.body.num_expected_participants ? parseInt(req.body.num_expected_participants) : null,
+    expected_duration: req.body.expected_duration ? parseInt(req.body.expected_duration) : null,
+    option_num: req.body.option_num ? parseInt(req.body.option_num) : null,
+    date: req.body.date,
+    start_time: req.body.start_time,
+    jen_story: req.body.jen_story,
+    num_actual_participants: req.body.num_actual_participants ? parseInt(req.body.num_actual_participants) : null,
+    actual_duration: req.body.actual_duration ? parseInt(req.body.actual_duration) : null,
+    num_pockets: req.body.num_pockets ? parseInt(req.body.num_pockets) : null,
+    num_collars: req.body.num_collars ? parseInt(req.body.num_collars) : null,
+    num_envelopes: req.body.num_envelopes ? parseInt(req.body.num_envelopes) : null,
+    num_vests: req.body.num_vests ? parseInt(req.body.num_vests) : null,
+    total_products: req.body.total_products ? parseInt(req.body.total_products) : null,
+    status: req.body.status,
+    num_team_members: req.body.num_team_members ? parseInt(req.body.num_team_members) : null,
+  };
+
+  db('event')
+    .where('event_id', eventId)
+    .update(updatedEvent)
+    .then(() => {
+      // Redirect back to the events page
+      res.redirect('/events');
+    })
+    .catch((error) => {
+      console.error('Error updating event:', error);
+      res.status(500).send('Error updating event');
+    });
+});
+
+//DELETE an event
+app.post('/event/:id/delete', async (req, res) => {
+  const eventId = req.params.id;
+
+  try {
+    // First, delete all related rows in volunteer_event
+    await db('volunteer_event').where('event_id', eventId).del();
+
+    // Then delete the event
+    await db('event').where('event_id', eventId).del();
+
+    res.redirect('/events'); // Redirect to the events page
+  } catch (error) {
+    console.error('Error deleting event:', error);
+    res.status(500).send('Error deleting event');
+  }
+});
+
 
 // start the server
 app.listen(port, () => {
@@ -323,7 +495,7 @@ app.post('/login', async (req, res) => {
   if (results.length > 0) {
     // If the credentials are correct, redirect the user to the admin page
     req.session.isAdmin = true; // Set a session variable to indicate admin status
-    res.redirect('/test');
+    res.redirect('/events');
   } else {
     res.render('login', { error: 'Invalid credentials' });
   }
