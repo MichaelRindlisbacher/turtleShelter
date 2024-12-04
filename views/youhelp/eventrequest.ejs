@@ -16,6 +16,16 @@
           <a href="/" class="logo"><img src="/images/logo.png" alt="Logo"></a>
           <a href="/" class="big-name">Turtle Shelter Project</a>
             <ul class="nav-links">
+                <% if (req.session.isAdmin) { %>
+                    <li class="dropdown">
+                      <a href="/admin/admin" class="dropdown-toggle">Admin Tools</a>
+                      <ul class="dropdown-menu">
+                        <li><a href="/events">Events</a></li>
+                        <li><a href="/adminvolunteer">Volunteers</a></li>
+                        <li><a href="/superuser/users">Users</a></li>
+                      </ul>
+                    </li>
+                  <% } %>
               <li><a href="/">Home</a></li>
               <li><a href="/story">Jen's Story</a></li>
               <li class="dropdown">

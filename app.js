@@ -29,8 +29,8 @@ const db = require("knex") ({ // Setting up connection with pg database
   connection : {
       host : process.env.RDS_HOSTNAME || "localhost",
       user : process.env.RDS_USERNAME || "postgres",
-      password : process.env.RDS_PASSWORD || "Sant1ag020",
-      database :process.env.RDS_DB_NAME || "turtle_shelter_project",
+      password : process.env.RDS_PASSWORD || "inc0rrect123",
+      database :process.env.RDS_DB_NAME || "TURTLE_SHELTER_PROJECT",
       port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
       ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
   }
@@ -610,12 +610,90 @@ app.post('/deletevolunteer/:id', async (req, res) => {
 // Route to view all users
 app.get('/superuser/users', (req, res) => {
   if (req.session.isSuperAdmin) {
-    // If the user is a super admin, render the superuser page
-    res.render('admin/superuser/users');
-  }
-  else {
-    // If the user is not a super admin, redirect to the login page
+    db('credentials')
+  .select('user_id', 'user_first_name', 'user_last_name', 'username', 'password')
+      .then((users) => {
+        res.render('admin/superuser/users', { users });
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error fetching data');
+      });
+  } else {
     res.redirect('/login');
+  }
+});
+
+// Route to view the user details
+app.get('/superuser/viewuser/:id', async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    // Fetch the user details
+    const user = await db('credentials').where({ user_id: userId }).first();
+
+    if (user) {
+      // Render the viewuser page with the fetched data
+      res.render('admin/superuser/viewuser', { user });
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    console.error('Error fetching user details:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Route to edit the user details
+app.get('/superuser/edituser/:id', async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    // Fetch the user details
+    const user = await db('credentials').where({ user_id: userId }).first();
+
+    if (user) {
+      // Render the edituser page with the fetched data
+      res.render('admin/superuser/edituser', { user });
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    console.error('Error fetching user details:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Route to handle the form submission for editing the user details
+app.post('/superuser/edituser/:id', async (req, res) => {
+  const userId = req.params.id;
+  const { user_first_name, user_last_name, username, password } = req.body;
+
+  try {
+    // Update the user details in the database
+    await db('credentials').where({ user_id: userId }).update({ user_first_name, user_last_name, username, password });
+
+    // Redirect back to the users page
+    res.redirect('/superuser/users');
+  } catch (error) {
+    console.error('Error updating user details:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// Route to delete a user
+app.post('/superuser/deleteuser/:id', async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    // Delete the user from the database
+    await db('credentials').where({ user_id: userId }).del();
+
+    // Redirect back to the users page
+    res.redirect('/superuser/users');
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
