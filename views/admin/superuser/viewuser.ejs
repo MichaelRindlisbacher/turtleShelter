@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View User</title>
+</head>
+<body>
+  <h1>User Details</h1>
+
+  <div class="user-details">
+    <h2><%= user.user_first_name %> <%= user.user_last_name %></h2>
+    <table>
+      <tr>
+        <td>Username:</td>
+        <td><%= user.username %></td>
+      </tr>
+      <tr>
+        <td>Password:</td>
+        <td><%= user.password %></td>
+      </tr>
+    </table>
+  </div>
+
+  <a href="/superuser/users" class="btn">Back to Users</a>
+</body>
+</html>
