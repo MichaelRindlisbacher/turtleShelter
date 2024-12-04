@@ -584,7 +584,7 @@ app.post('/editvolunteer/:id/edit', async (req, res) => {
       .update(updatedVolunteer);
 
     // Redirect to the volunteer list or another page
-    res.redirect('/admin/adminvolunteer');
+    res.redirect('/adminvolunteer');
   } catch (error) {
     console.error('Error updating volunteer:', error);
     res.status(500).send('An error occurred while updating the volunteer.');
@@ -602,7 +602,7 @@ app.post('/deletevolunteer/:id', async (req, res) => {
     await db('volunteer').where({ volunteer_id: id }).del();
 
     // Redirect back to the admin volunteer page or show a success message
-    res.redirect('/admin/adminvolunteer');
+    res.redirect('/adminvolunteer');
   } catch (error) {
     console.error('Error deleting volunteer:', error);
     res.status(500).send('An error occurred while deleting the volunteer.');
