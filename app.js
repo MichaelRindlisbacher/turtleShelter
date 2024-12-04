@@ -609,7 +609,14 @@ app.post('/deletevolunteer/:id', async (req, res) => {
 
 // Route to view all users
 app.get('/superuser/users', (req, res) => {
-  res.render('admin/superuser/users');
+  if (req.session.isSuperAdmin) {
+    // If the user is a super admin, render the superuser page
+    res.render('admin/superuser/users');
+  }
+  else {
+    // If the user is not a super admin, redirect to the login page
+    res.redirect('/login');
+  }
 });
 
 // Handle login form submission
