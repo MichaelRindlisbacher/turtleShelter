@@ -29,8 +29,8 @@ const db = require("knex") ({ // Setting up connection with pg database
   connection : {
       host : process.env.RDS_HOSTNAME || "localhost",
       user : process.env.RDS_USERNAME || "postgres",
-      password : process.env.RDS_PASSWORD || "Sant1ag020",
-      database :process.env.RDS_DB_NAME || "turtle_shelter_project",
+      password : process.env.RDS_PASSWORD || "inc0rrecT123",
+      database :process.env.RDS_DB_NAME || "TURTLE_SHELTER_PROJECT",
       port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
       ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
   }
@@ -270,7 +270,8 @@ app.get('/youhelp/upcoming', (req, res) => {
     res.render('youhelp/upcoming');
   });
 
-app.get('/test', (req, res) => {
+// Route to display events
+app.get('/events', (req, res) => {
   if (req.session.isAdmin) {
     db('event')
       .select(
@@ -307,15 +308,18 @@ app.get('/test', (req, res) => {
         // Group events by location (street address, city, state, zip) and status
         console.log(events); // Check if coordinator fields are in the result
         const groupedEvents = {};
-
+ 
+ 
         events.forEach((event) => {
           const locationKey = `${event.event_street_address}-${event.event_city}-${event.event_state}-${event.event_zip}`;
           const status = event.status;
-
+ 
+ 
           if (!groupedEvents[status]) {
             groupedEvents[status] = [];
           }
-
+ 
+ 
           // Group events by location
           const locationGroup = groupedEvents[status].find(group => group.locationKey === locationKey);
           if (!locationGroup) {
@@ -327,7 +331,8 @@ app.get('/test', (req, res) => {
             locationGroup.events.push(event);
           }
         });
-
+ 
+ 
         // Render the grouped events in the EJS template
         res.render('events', { groupedEvents });
       })
@@ -338,7 +343,7 @@ app.get('/test', (req, res) => {
   } else {
     res.redirect('/login'); // Redirect if not admin
   }
-});
+ }); 
 
 
 // // Route to update the event status
