@@ -336,7 +336,7 @@ app.get('/events', (req, res) => {
  
  
         // Render the grouped events in the EJS template
-        res.render('admin/events', { groupedEvents });
+        res.render('/admin/events', { groupedEvents });
       })
       .catch((error) => {
         console.error('Error querying database:', error);
@@ -460,7 +460,7 @@ app.post('/event/:id/edit', (req, res) => {
     .update(updatedEvent)
     .then(() => {
       // Redirect back to the events page
-      res.redirect('/admin/events');
+      res.redirect('/events');
     })
     .catch((error) => {
       console.error('Error updating event:', error);
@@ -479,7 +479,7 @@ app.post('/event/:id/delete', async (req, res) => {
     // Then delete the event
     await db('event').where('event_id', eventId).del();
 
-    res.redirect('/admin/events'); // Redirect to the events page
+    res.redirect('/events'); // Redirect to the events page
   } catch (error) {
     console.error('Error deleting event:', error);
     res.status(500).send('Error deleting event');
