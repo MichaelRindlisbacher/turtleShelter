@@ -6,6 +6,7 @@
       <title>Contact Us - TSP</title>
       <link rel="icon"  type="image/png" href="/images/logo.png">
       <link rel="stylesheet" href="/styles/general.css">
+      <link rel="stylesheet" href="/styles/linkingpage.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
@@ -19,7 +20,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/story">Jen's Story</a></li>
                 <li class="dropdown">
-                  <a href="/about" class="dropdown-toggle">About Us</a>
+                  <a href="/about/homeless_cold" class="dropdown-toggle">About Us</a>
                   <ul class="dropdown-menu">
                     <!-- Add links to the dropdown menu -->
                     <li><a href="/about/homeless_cold">Homelessness & Hypothermia</a></li>
@@ -43,5 +44,15 @@
               </ul>
           </nav>
         </header>
+        <div class="sidebar">
+          <h2>About</h2>
+          <ul>
+            <li><a href="/about/homeless_cold">Homelessness & Hypothermia</a></li>
+            <li><a href="/about/directors">Board of Directors</a></li>
+            <li><a href="/about/vest_tech">The Turtle Shelter Vest</a></li>
+            <li><a href="/about/faqs">FAQs</a></li>
+            <li><a href="/about/contact" class="<%= (req.path === '/about/contact') ? 'active' : '' %>">Contact Us</a></li>
+          </ul>
+        </div>
 </body>
 </html>

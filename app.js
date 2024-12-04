@@ -29,8 +29,8 @@ const db = require("knex") ({ // Setting up connection with pg database
   connection : {
       host : process.env.RDS_HOSTNAME || "localhost",
       user : process.env.RDS_USERNAME || "postgres",
-      password : process.env.RDS_PASSWORD || "incorrect123",
-      database :process.env.RDS_DB_NAME || "TURTLE_SHELTER_PROJECT",
+      password : process.env.RDS_PASSWORD || "Sant1ag020",
+      database :process.env.RDS_DB_NAME || "turtle_shelter_project",
       port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
       ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
   }
@@ -65,34 +65,29 @@ app.get('/story', (req, res) => {
     res.render('story');
   });
 
-// get about
-app.get('/about', (req, res) => {
-    res.render('about/homeless_cold');
-  });
-
 // get homeless and hypothermia
 app.get('/about/homeless_cold', (req, res) => {
-    res.render('about/homeless_cold');
+    res.render('about/homeless_cold', {req: req});
   });
 
 // get directors page
 app.get('/about/directors', (req, res) => {
-    res.render('about/directors');
+    res.render('about/directors', {req: req});
   });
 
 // get vest tech page
 app.get('/about/vest_tech', (req, res) => {
-    res.render('about/vest_tech');
+    res.render('about/vest_tech', {req: req});
 });
 
 // get faq page
 app.get('/about/faqs', (req, res) => {
-    res.render('about/faqs');
+    res.render('about/faqs', {req: req});
   });
 
 // get contact page
 app.get('/about/contact', (req, res) => {
-    res.render('about/contact');
+    res.render('about/contact', {req: req});
   });
 
 // get eventrequest page

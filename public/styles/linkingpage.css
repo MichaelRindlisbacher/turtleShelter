@@ -1,12 +1,49 @@
 main {
     margin-top: 100px;
-    margin-left: 200px;
+    margin-left: 5%;
     padding: 20px;
 }
 
 h1 {
     font-size: 24px;
     margin-bottom: 10px;
+    margin-left: 220px;
+    text-align: left;
+}
+
+h2 {
+    font-family: 'Montserrat', serif;
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+p {
+    font-family: 'Montserrat', serif;
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-left: 220px;
+    text-align: left;
+    flex-wrap: wrap;
+}
+
+.images {
+    display: inline-block;
+    margin: 0 auto;
+    margin-left: 220px;
+    max-width: 400px;
+    width: 60%;
+    height: auto;
+    text-align: center;
+}
+
+.small {
+    display: inline-block;
+    margin: 0 auto;
+    margin-left: 50px;
+    max-width: 100px;
+    width: 60%;
+    height: auto;
     text-align: center;
 }
 
@@ -38,4 +75,10 @@ h1 {
 
 .sidebar a:hover {
   color: #666;
+}
+
+.sidebar ul li a.active {
+  background-color: gray; /* or any other color you prefer */
+  color: black; /* or any other color you prefer */
+  font-weight: bold;
 }

@@ -20,7 +20,7 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/story">Jen's Story</a></li>
                 <li class="dropdown">
-                  <a href="/about" class="dropdown-toggle">About Us</a>
+                  <a href="/about/homeless_cold" class="dropdown-toggle">About Us</a>
                   <ul class="dropdown-menu">
                     <!-- Add links to the dropdown menu -->
                     <li><a href="/about/homeless_cold">Homelessness & Hypothermia</a></li>
@@ -45,13 +45,26 @@
           </nav>
         </header>
         <div class="sidebar">
+          <h2>About</h2>
           <ul>
-            <li><a href="/about/homeless_cold">Homelessness & Hypothermia</a></li>
+            <li><a href="/about/homeless_cold" class="<%= (req.path === '/about/homeless_cold') ? 'active' : '' %>">Homelessness & Hypothermia</a></li>
             <li><a href="/about/directors">Board of Directors</a></li>
             <li><a href="/about/vest_tech">The Turtle Shelter Vest</a></li>
             <li><a href="/about/faqs">FAQs</a></li>
             <li><a href="/about/contact">Contact Us</a></li>
           </ul>
         </div>
+  <main>
+    <div>
+      <h1>Homelessness & Hypothermia</h1>
+      <img class="images" src="/images/NCH-Winter-Emergency-Shelters.png" alt="Winter Emergency Shelter Facts"><img class="small" src="/images/nhchc-184@2x.png" alt="nhchc">
+      <p>Each year, as winter approaches and the temperature begins to drop, many homeless people move from the streets to their city’s shelter system to escape the cold. However, few communities have city-wide cold-weather response plans, and many of the plans currently in place leave gaping holes in accessibility.</p>
+      <p>In rural areas, shelters often have no outside resources to help them cope with the increased demand caused by cold weather conditions. Many shelters or cities offer expanded winter services only during certain months or only when the temperature falls below a pre-determined and arbitrary cut-off temperature. Above those cut-offs (hypothermia can occur in weather as warm as 50 degrees Fahrenheit) many cities do not offer resources to help the homeless people escape from the cold.</p>
+      <p>Without a carefully constructed winter plan, homeless service facilities may find themselves unable to accommodate the influx of residents, and some of those people who seek shelter are turned out into the cold. With nowhere to stay except the streets, people experiencing homelessness have a much higher risk than the general population of developing exposure-related conditions such as hypothermia and frostbite. These conditions can be immediately life threatening and may also increase the risk of dying from unrelated conditions in the future. Increased homeless services, especially additional shelter availability, are necessary to accommodate the amplified need in the winter.</p>
+      <p>From the Dangers of Cold Weather from the National Coalition for the Homeless</p>
+      <p>Read the full report, Winter Homeless Services: Bringing Our Neighbors in from the Cold from the National Coalition for the Homeless.</p>
+      <p>From the National Health Care for the Homeless Council, Cold-Related Injuries.</p>
+    </div>
+  </main>
 </body>
 </html>
