@@ -413,7 +413,7 @@ app.get('/event/:id/edit', (req, res) => {
     .first()
     .then(event => {
       if (event) {
-        res.render('editEvent', { event });
+        res.render('editevent', { event });
       } else {
         res.status(404).send('Event not found');
       }
