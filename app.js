@@ -100,10 +100,6 @@ app.get('/youhelp/donate', (req, res) => {
     res.redirect(donateURL);
   });
 
-app.get('/youhelp/youhelp', (req, res) => {
-  res.redirect('youhelp/youhelp');
-  });
-
 // Handle form submission for event requests
 app.post('/submit-event', async (req, res) => {
   try {
