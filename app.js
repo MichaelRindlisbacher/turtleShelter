@@ -7,7 +7,6 @@ const session = require('express-session'); // imports the session class
 
 let path = require("path");
 
-let security = false;
 
 const port = process.env.PORT || 5004;
 
@@ -29,8 +28,8 @@ const db = require("knex") ({ // Setting up connection with pg database
   connection : {
       host : process.env.RDS_HOSTNAME || "localhost",
       user : process.env.RDS_USERNAME || "postgres",
-      password : process.env.RDS_PASSWORD || "inc0rrecT123",
-      database :process.env.RDS_DB_NAME || "TURTLE_SHELTER_PROJECT",
+      password : process.env.RDS_PASSWORD || "Sant1ag020",
+      database :process.env.RDS_DB_NAME || "turtle_shelter_project",
       port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
       ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
   }
@@ -52,7 +51,7 @@ db.raw('SELECT 1').then(() => {
 
 // get index
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index', {req: req});
   });
 
 // get login
@@ -94,6 +93,10 @@ app.get('/about/contact', (req, res) => {
 app.get('/youhelp/eventrequest', (req, res) => {
     res.render('youhelp/eventrequest');
   });
+
+app.get('/youhelp/youhelp', (req, res) => {
+    res.render('youhelp')
+})
 
 // redirect to donate page
 app.get('/youhelp/donate', (req, res) => {
@@ -334,7 +337,7 @@ app.get('/events', (req, res) => {
  
  
         // Render the grouped events in the EJS template
-        res.render('events', { groupedEvents });
+        res.render('admin/events', { groupedEvents });
       })
       .catch((error) => {
         console.error('Error querying database:', error);
@@ -397,7 +400,7 @@ app.get('/event/:id', (req, res) => {
       return res.status(404).send('Event not found');
     }
 
-    res.render('viewevent', { event: event[0] });
+    res.render('admin/viewevent', { event: event[0] });
   })
   .catch((error) => {
     console.error('Error fetching event details:', error);
@@ -405,6 +408,7 @@ app.get('/event/:id', (req, res) => {
   });
 });
 
+// Route to edit an event
 app.get('/event/:id/edit', (req, res) => {
   const eventId = req.params.id;
 
@@ -413,7 +417,7 @@ app.get('/event/:id/edit', (req, res) => {
     .first()
     .then(event => {
       if (event) {
-        res.render('editevent', { event });
+        res.render('admin/editevent', { event });
       } else {
         res.status(404).send('Event not found');
       }
@@ -424,7 +428,7 @@ app.get('/event/:id/edit', (req, res) => {
     });
 });
 
-
+// Route to update an event
 app.post('/event/:id/edit', (req, res) => {
   const eventId = req.params.id;
 
@@ -457,7 +461,7 @@ app.post('/event/:id/edit', (req, res) => {
     .update(updatedEvent)
     .then(() => {
       // Redirect back to the events page
-      res.redirect('/events');
+      res.redirect('/admin/events');
     })
     .catch((error) => {
       console.error('Error updating event:', error);
@@ -476,20 +480,21 @@ app.post('/event/:id/delete', async (req, res) => {
     // Then delete the event
     await db('event').where('event_id', eventId).del();
 
-    res.redirect('/events'); // Redirect to the events page
+    res.redirect('/admin/events'); // Redirect to the events page
   } catch (error) {
     console.error('Error deleting event:', error);
     res.status(500).send('Error deleting event');
   }
 });
 
+//Route to view all volunteers
 app.get('/adminvolunteer', async (req, res) => {
   try {
     // Fetch all volunteers, ordered by volunteer_id
     const volunteers = await db('volunteer').orderBy('volunteer_id', 'asc');
 
     // Render the adminvolunteer page with the fetched data
-    res.render('adminvolunteer', { volunteers });
+    res.render('admin/adminvolunteer', { volunteers });
   } catch (error) {
     // Log the error and render an error page
     console.error('Error fetching volunteers:', error);
@@ -497,6 +502,7 @@ app.get('/adminvolunteer', async (req, res) => {
   }
 });
 
+// Route to view a specific volunteer
 app.get('/viewvolunteer/:id', async (req, res) => {
   const { id } = req.params;
 
@@ -509,7 +515,7 @@ app.get('/viewvolunteer/:id', async (req, res) => {
     }
 
     // Render the volunteer details page
-    res.render('viewvolunteer', { volunteer });
+    res.render('admin/viewvolunteer', { volunteer });
   } catch (error) {
     console.error('Error fetching volunteer:', error);
     res.status(500).send('An error occurred while fetching the volunteer.');
@@ -533,15 +539,14 @@ app.get('/editvolunteer/:id', async (req, res) => {
     }
 
     // Render the volunteer edit page
-    res.render('editvolunteer', { volunteer, sources });
+    res.render('admin/editvolunteer', { volunteer, sources });
   } catch (error) {
     console.error('Error fetching volunteer:', error);
     res.status(500).send('An error occurred while fetching the volunteer.');
   }
 });
 
-
-
+// Route to process the edit volunteer form
 app.post('/editvolunteer/:id/edit', async (req, res) => {
   const { id } = req.params;
   const {
@@ -580,7 +585,7 @@ app.post('/editvolunteer/:id/edit', async (req, res) => {
       .update(updatedVolunteer);
 
     // Redirect to the volunteer list or another page
-    res.redirect('/adminvolunteer');
+    res.redirect('/admin/adminvolunteer');
   } catch (error) {
     console.error('Error updating volunteer:', error);
     res.status(500).send('An error occurred while updating the volunteer.');
@@ -598,17 +603,23 @@ app.post('/deletevolunteer/:id', async (req, res) => {
     await db('volunteer').where({ volunteer_id: id }).del();
 
     // Redirect back to the admin volunteer page or show a success message
-    res.redirect('/adminvolunteer');
+    res.redirect('/admin/adminvolunteer');
   } catch (error) {
     console.error('Error deleting volunteer:', error);
     res.status(500).send('An error occurred while deleting the volunteer.');
   }
 });
 
-
-// start the server
-app.listen(port, () => {
-    console.log(`Server is running`);
+// Route to view all users
+app.get('/superuser/users', (req, res) => {
+  if (req.session.isSuperAdmin) {
+    // If the user is a super admin, render the superuser page
+    res.render('admin/superuser/users');
+  }
+  else {
+    // If the user is not a super admin, redirect to the login page
+    res.redirect('/login');
+  }
 });
 
 // Handle login form submission
@@ -619,11 +630,32 @@ app.post('/login', async (req, res) => {
   // Query your Postgres database to verify the credentials
   const results = await db('credentials').where({ username, password });
 
-  if (results.length > 0) {
+  if (username == "ADMIN" && password == "PASSWORD") {
+    // If the credentials are correct, redirect the user to the admin page
+    req.session.isSuperAdmin = true; // Set a session variable to indicate super admin status
+    req.session.isAdmin = true; // Set a session variable to indicate admin status
+    res.redirect('admin/admin');
+  } else if (results.length > 0) {
     // If the credentials are correct, redirect the user to the admin page
     req.session.isAdmin = true; // Set a session variable to indicate admin status
-    res.redirect('/events');
+    res.redirect('admin/admin');
   } else {
     res.render('login', { error: 'Invalid credentials' });
   }
+});
+
+// Route to display the admin page
+app.get('/admin/admin', (req, res) => {
+  if (req.session.isAdmin) {
+    // Render the admin page
+    res.render('admin/admin');
+  } else {
+    // Redirect to the login page if not admin
+    res.redirect('/login');
+  }
+});
+
+// start the server
+app.listen(port, () => {
+  console.log(`Server is running`);
 });
