@@ -7,7 +7,6 @@ const session = require('express-session'); // imports the session class
 
 let path = require("path");
 
-
 const port = process.env.PORT || 5004;
 
 // configuration
