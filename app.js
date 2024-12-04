@@ -27,8 +27,8 @@ const db = require("knex") ({ // Setting up connection with pg database
   connection : {
       host : process.env.RDS_HOSTNAME || "localhost",
       user : process.env.RDS_USERNAME || "postgres",
-      password : process.env.RDS_PASSWORD || "inc0rrect123",
-      database :process.env.RDS_DB_NAME || "TURTLE_SHELTER_PROJECT",
+      password : process.env.RDS_PASSWORD || "Sant1ag020",
+      database :process.env.RDS_DB_NAME || "turtle_shelter_project",
       port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
       ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
   }
@@ -55,12 +55,12 @@ app.get('/', (req, res) => {
 
 // get login
 app.get('/login', (req, res) => {
-    res.render('login');
+    res.render('login', {req: req});
   });
 
 // get story
 app.get('/story', (req, res) => {
-    res.render('story');
+    res.render('story', {req: req});
   });
 
 // get homeless and hypothermia
@@ -90,11 +90,11 @@ app.get('/about/contact', (req, res) => {
 
 // get eventrequest page
 app.get('/youhelp/eventrequest', (req, res) => {
-    res.render('youhelp/eventrequest');
+    res.render('youhelp/eventrequest', {req: req});
   });
 
 app.get('/youhelp/youhelp', (req, res) => {
-    res.render('youhelp')
+    res.render('youhelp', {req: req});
 })
 
 // redirect to donate page
@@ -185,22 +185,22 @@ app.post('/submit-event', async (req, res) => {
 
 // get the more ways to help page
 app.get('/youhelp', (req, res) => {
-    res.render('youhelp');
+    res.render('youhelp', {req: req});
   });
 
 // get the volunteer signup page
 app.get('/youhelp/volunteer', (req, res) => {
-  res.render('youhelp/volunteer');
+  res.render('youhelp/volunteer', {req: req});
 });
 
 //get the upcoming events page
 app.get('/upcoming', (req, res) => {
-  res.render('youhelp/upcoming');
+  res.render('youhelp/upcoming', {req: req});
 });
 
 // get the sponsor page
 app.get('/youhelp/sponsor', (req, res) => {
-  res.render('youhelp/sponsor');
+  res.render('youhelp/sponsor', {req: req});
 });
 
 // Handle form submission for the volunteer signup page
@@ -265,11 +265,11 @@ app.post("/volunteer", async (req, res) => {
 
 // success message
 app.get("/success", (req, res) => {
-  res.render("success");
+  res.render("success", {req: req});
 });
 
 app.get('/youhelp/upcoming', (req, res) => {
-    res.render('youhelp/upcoming');
+    res.render('youhelp/upcoming', {req: req});
   });
 
 // Route to display events
