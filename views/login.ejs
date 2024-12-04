@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Turtle Shelter Project</title>
+    <link rel="stylesheet" type="text/css" href="/styles/eventrequest.css">      
     <style>
         /* General page styles */
         body.general-page {
@@ -32,7 +33,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             width: 100%;
-            max-width: 400px;
+            max-width: 375px;
             padding: 30px;
             text-align: center;
             animation: fadeIn 0.8s ease-in-out;
@@ -41,7 +42,7 @@
         /* Title styling */
         .login-title {
             font-size: 1.8em;
-            color: #16a085;
+            color: #1a1a1a;
             margin-bottom: 20px;
         }
 
@@ -67,7 +68,7 @@
 
         /* Button styling */
         .login-button {
-            background: #16a085;
+            background: black;
             color: white;
             border: none;
             border-radius: 5px;
@@ -80,7 +81,7 @@
         }
 
         .login-button:hover {
-            background: #1abc9c;
+            background: #A9A9A9;
         }
 
         /* Box shadow and hover effects */
@@ -114,10 +115,41 @@
     </style>
 </head>
 <body class="general-page">
+    <header>
+        <nav class="navbar">
+          <a href="/" class="logo"><img src="/images/logo.png" alt="Logo"></a>
+          <a href="/" class="big-name">TURTLE SHELTER PROJECT</a>
+            <ul class="nav-links">
+              <li><a href="/">HOME</a></li>
+              <li><a href="/story">JEN'S STORY</a></li>
+              <li class="dropdown">
+                <a href="/about/homeless_cold" class="dropdown-toggle">ABOUT US</a>
+                <ul class="dropdown-menu">
+                  <!-- Add links to the dropdown menu -->
+                  <li><a href="/about/homeless_cold">HOMELESSNESS & HYPOTHERMIA</a></li>
+                  <li><a href="/about/directors">BOARD OF DIRECTORS</a></li>
+                  <li><a href="/about/vest_tech">THE TURTLE SHELTER VEST</a></li>
+                  <li><a href="/about/faqs">FAQs</a></li>
+                  <li><a href="/about/contact">CONTACT</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="/youhelp" class="dropdown-toggle">GET INVOLVED</a>
+                <ul class="dropdown-menu youhelp-dropdown">
+                  <!-- Add links to the dropdown menu -->
+                  <li><a href="/youhelp/donate">DONATE</a></li>
+                  <li><a href="/youhelp/eventrequest">REQUEST AN EVENT</a></li>
+                  <li><a href="/youhelp/volunteer">VOLUNTEER</a></li>
+                  <li><a href="/youhelp/sponsor">BECOME A SPONSOR OR PARTNER</a></li>
+                  <li><a href="/youhelp/youhelp">OTHER WAYS TO HELP</a></li>
+                </ul>
+              </li>
+            </ul>
+        </nav>
+      </header>
     <div class="login-container">
         <div class="login-box">
-            <h2 class="login-title">Turtle Shelter Project</h2>
-            <h3>Admin</h3>
+            <h2 class="login-title">Admin Login</h2>
             <form action="/login" method="post">
                 <label for="username" class="login-label">Username</label>
                 <input type="text" id="username" name="username" class="login-input" required>

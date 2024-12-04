@@ -7,8 +7,6 @@ const session = require('express-session'); // imports the session class
 
 let path = require("path");
 
-let security = false;
-
 const port = process.env.PORT || 5004;
 
 // configuration
@@ -94,6 +92,10 @@ app.get('/about/contact', (req, res) => {
 app.get('/youhelp/eventrequest', (req, res) => {
     res.render('youhelp/eventrequest');
   });
+
+app.get('/youhelp/youhelp', (req, res) => {
+    res.render('youhelp')
+})
 
 // redirect to donate page
 app.get('/youhelp/donate', (req, res) => {
