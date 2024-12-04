@@ -1,3 +1,4 @@
+// initialize node, express, and express-session
 let express = require("express");
 
 let app = express();
@@ -10,6 +11,7 @@ let security = false;
 
 const port = process.env.PORT || 5001;
 
+// configuration
 app.set("view engine", "ejs");
 
 app.set("views", path.join(__dirname, "views"));
@@ -18,57 +20,92 @@ app.use(express.urlencoded({extended: true}));
 
 app.use(express.static(path.join(__dirname, "public")));
 
+// donate url
 const donateURL = 'https://turtleshelterproject.org/checkout/donate?donatePageId=5b6a44c588251b72932df5a0';
 
+// knex connection object
 const db = require("knex") ({ // Setting up connection with pg database
   client : "pg",
   connection : {
       host : process.env.RDS_HOSTNAME || "localhost",
       user : process.env.RDS_USERNAME || "postgres",
-      password : process.env.RDS_PASSWORD || "Incorrect123",
+      password : process.env.RDS_PASSWORD || "incorrect123",
       database :process.env.RDS_DB_NAME || "TURTLE_SHELTER_PROJECT",
       port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
       ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
   }
 })
 
+// login session
 app.use(session({
   secret: 'your-secret-key',
   resave: false,
   saveUninitialized: true
 }));
 
+// Check database connection
 db.raw('SELECT 1').then(() => {
     console.log('Database connected successfully');
 }).catch(err => {
     console.error('Database connection error:', err);
 });
 
+// get index
 app.get('/', (req, res) => {
     res.render('index');
   });
 
+// get login
 app.get('/login', (req, res) => {
     res.render('login');
   });
 
+// get story
 app.get('/story', (req, res) => {
     res.render('story');
   });
 
-app.get('/about/about', (req, res) => {
-    res.render('about/about');
+// get about
+app.get('/about', (req, res) => {
+    res.render('about/homeless_cold');
   });
 
+// get homeless and hypothermia
+app.get('/about/homeless_cold', (req, res) => {
+    res.render('about/homeless_cold');
+  });
+
+// get directors page
+app.get('/about/directors', (req, res) => {
+    res.render('about/directors');
+  });
+
+// get vest tech page
+app.get('/about/vest_tech', (req, res) => {
+    res.render('about/vest_tech');
+});
+
+// get faq page
+app.get('/about/faqs', (req, res) => {
+    res.render('about/faqs');
+  });
+
+// get contact page
+app.get('/about/contact', (req, res) => {
+    res.render('about/contact');
+  });
+
+// get eventrequest page
 app.get('/youhelp/eventrequest', (req, res) => {
     res.render('youhelp/eventrequest');
   });
 
-app.get('/donate', (req, res) => {
+// redirect to donate page
+app.get('/youhelp/donate', (req, res) => {
     res.redirect(donateURL);
   });
 
-// Handle form submission
+// Handle form submission for event requests
 app.post('/submit-event', async (req, res) => {
   try {
     // Destructure form data and convert strings to uppercase
@@ -149,19 +186,27 @@ app.post('/submit-event', async (req, res) => {
   }
 });
 
-
-app.get('/youhelp/youhelp', (req, res) => {
-    res.render('youhelp/youhelp');
+// get the more ways to help page
+app.get('/youhelp', (req, res) => {
+    res.render('youhelp');
   });
 
-app.get('/youhelp/donate', (req, res) => {
-    res.render('youhelp/donate');
-  });
-
+// get the volunteer signup page
 app.get('/youhelp/volunteer', (req, res) => {
   res.render('youhelp/volunteer');
 });
 
+//get the upcoming events page
+app.get('/upcoming', (req, res) => {
+  res.render('youhelp/upcoming');
+});
+
+// get the sponsor page
+app.get('/youhelp/sponsor', (req, res) => {
+  res.render('youhelp/sponsor');
+});
+
+// Handle form submission for the volunteer signup page
 app.post("/volunteer", async (req, res) => {
   try {
       // Log the form data for debugging
@@ -221,15 +266,12 @@ app.post("/volunteer", async (req, res) => {
   }
 });
 
-
+// success message
 app.get("/success", (req, res) => {
-  res.render("success"); // This renders the success.ejs file
+  res.render("success");
 });
 
-app.get('/youhelp/upcoming', (req, res) => {
-    res.render('youhelp/upcoming');
-  });
-
+// get the test page (admin view)
 app.get('/test', (req, res) => {
   if (req.session.isAdmin) {
     db('event')
@@ -270,10 +312,12 @@ app.get('/test', (req, res) => {
   }
 });
 
+// start the server
 app.listen(port, () => {
     console.log(`Server is running`);
 });
 
+// Handle login form submission
 app.post('/login', async (req, res) => {
   console.log('Login form submitted!');
   const { username, password } = req.body;
