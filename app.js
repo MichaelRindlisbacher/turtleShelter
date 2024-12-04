@@ -27,8 +27,8 @@ const db = require("knex") ({ // Setting up connection with pg database
   connection : {
       host : process.env.RDS_HOSTNAME || "localhost",
       user : process.env.RDS_USERNAME || "postgres",
-      password : process.env.RDS_PASSWORD || "inc0rrect123",
-      database :process.env.RDS_DB_NAME || "TURTLE_SHELTER_PROJECT",
+      password : process.env.RDS_PASSWORD || "Sant1ag020",
+      database :process.env.RDS_DB_NAME || "turtle_shelter_project",
       port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
       ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
   }
@@ -336,7 +336,7 @@ app.get('/events', (req, res) => {
  
  
         // Render the grouped events in the EJS template
-        res.render('/admin/events', { groupedEvents });
+        res.render('admin/events', { groupedEvents });
       })
       .catch((error) => {
         console.error('Error querying database:', error);
