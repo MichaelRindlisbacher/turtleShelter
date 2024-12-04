@@ -460,7 +460,7 @@ app.post('/event/:id/edit', (req, res) => {
     .update(updatedEvent)
     .then(() => {
       // Redirect back to the events page
-      res.redirect('/admin/events');
+      res.redirect('/events');
     })
     .catch((error) => {
       console.error('Error updating event:', error);
@@ -479,7 +479,7 @@ app.post('/event/:id/delete', async (req, res) => {
     // Then delete the event
     await db('event').where('event_id', eventId).del();
 
-    res.redirect('/admin/events'); // Redirect to the events page
+    res.redirect('/events'); // Redirect to the events page
   } catch (error) {
     console.error('Error deleting event:', error);
     res.status(500).send('Error deleting event');
@@ -584,7 +584,7 @@ app.post('/editvolunteer/:id/edit', async (req, res) => {
       .update(updatedVolunteer);
 
     // Redirect to the volunteer list or another page
-    res.redirect('/admin/adminvolunteer');
+    res.redirect('/adminvolunteer');
   } catch (error) {
     console.error('Error updating volunteer:', error);
     res.status(500).send('An error occurred while updating the volunteer.');
@@ -602,7 +602,7 @@ app.post('/deletevolunteer/:id', async (req, res) => {
     await db('volunteer').where({ volunteer_id: id }).del();
 
     // Redirect back to the admin volunteer page or show a success message
-    res.redirect('/admin/adminvolunteer');
+    res.redirect('/adminvolunteer');
   } catch (error) {
     console.error('Error deleting volunteer:', error);
     res.status(500).send('An error occurred while deleting the volunteer.');
