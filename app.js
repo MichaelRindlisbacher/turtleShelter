@@ -95,6 +95,10 @@ app.get('/youhelp/eventrequest', (req, res) => {
     res.render('youhelp/eventrequest');
   });
 
+app.get('/youhelp/youhelp', (req, res) => {
+    res.render('youhelp')
+})
+
 // redirect to donate page
 app.get('/youhelp/donate', (req, res) => {
     res.redirect(donateURL);
