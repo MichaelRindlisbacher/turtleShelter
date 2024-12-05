@@ -11,13 +11,12 @@ a:visited {
   text-decoration: none;
 }
 
-/* a:hover {
-  text-decoration: none;
-  color: #666;
-} */
-
 .hidden {
   display: none;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 .navbar {
@@ -29,7 +28,7 @@ a:visited {
   width: 100%;
   background-color: #A9A9A9;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 1000; /* to ensure the header is on top of other elements */
+  z-index: 2000; /* to ensure the header is on top of other elements */
   padding: 0; /* Remove the padding from the navbar */
 
 }
@@ -225,4 +224,57 @@ a:visited {
     font-size: 14px; /* Slightly smaller font for a clean look */
     padding: 8px 12px;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.counter-container {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.counter-container p {
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+.counter-container h1 {
+  font-size: 700%;
+  color: black;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.text-box {
+  background-color: #ecf0f1;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.img-container {
+  width: 50%;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.img-container img {
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+  display: block;
 }

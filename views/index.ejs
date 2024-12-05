@@ -15,13 +15,24 @@
       <%- include('partials/navbar.ejs') %>
     </header>
     <main class="intro">
-        <h2>Helping to save lives of people experiencing homelessness</h2>
+        <h2>Helping to save lives of people experiencing homelessness...</h2>
         <h1>STARTS WITH YOU</h1><br>
         <ul class="intro-buttons">
             <li><a href="/youhelp/donate"><button>DONATE NOW</button></a></li>
             <li><a href="/youhelp"><button>LEARN MORE</button></a></li>
         </ul>
     </main>
+    <div class="wrapper">
+        <div class="counter-container">
+            <div class="text-box">
+              <h1><%= vestCount || 5900 %></h1>
+              <p>Turtle Shelter Vests Distributed</p>
+            </div>
+          </div>
+        <div class="img-container">
+          <img src="/images/making.jpg">
+        </div>
+      </div>
     <script src="/scripts/script.js"></script>
 </body>
 </html>

@@ -27,8 +27,8 @@ const db = require("knex") ({ // Setting up connection with pg database
   connection : {
       host : process.env.RDS_HOSTNAME || "localhost",
       user : process.env.RDS_USERNAME || "postgres",
-      password : process.env.RDS_PASSWORD || "inc0rrecT123",
-      database :process.env.RDS_DB_NAME || "TURTLE_SHELTER_PROJECT",
+      password : process.env.RDS_PASSWORD || "Sant1ag020",
+      database :process.env.RDS_DB_NAME || "turtle_shelter_project",
       port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
       ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
   }
@@ -50,8 +50,9 @@ db.raw('SELECT 1').then(() => {
 
 // get index
 app.get('/', (req, res) => {
-    res.render('index', {req: req});
-  });
+  let vestCount = 5901;
+  res.render('index', { vestCount: vestCount, req: req });
+});
 
 // get login
 app.get('/login', (req, res) => {
