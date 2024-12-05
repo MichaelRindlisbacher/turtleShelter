@@ -37,8 +37,7 @@
                 <br>
                 <div class="form-group">
                     <label for="toggleCheckBox">Have you requested an event before?</label>
-                    <input type="checkbox" id="toggleCheckbox">
-                    <p id="phoneLabel" class="hidden"><b>Phone Number</b></p>
+                    <input type="checkbox" id="toggleCheckbox"> Yes
                     <input type="number" id="hiddenContent" class="hidden">
                 </div>
                 <br>
@@ -55,11 +54,9 @@
                     checkbox.addEventListener('change', () => {
                     if (checkbox.checked) {
                         hiddenContent.classList.remove('hidden'); // Show the content
-                        phoneLabel.classList.remove('hidden');
                         coordinator.classList.add('hidden');
                     } else {
                         hiddenContent.classList.add('hidden'); // Hide the content
-                        phoneLabel.classList.add('hidden');
                         coordinator.classList.remove('hidden');
                     }
                     });
