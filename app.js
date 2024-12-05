@@ -7,7 +7,7 @@ const session = require('express-session'); // imports the session class
 
 let path = require("path");
 
-const port = process.env.PORT || 5004;
+const port = process.env.PORT || 5005;
 
 // configuration
 app.set("view engine", "ejs");
@@ -27,8 +27,8 @@ const db = require("knex") ({ // Setting up connection with pg database
   connection : {
       host : process.env.RDS_HOSTNAME || "localhost",
       user : process.env.RDS_USERNAME || "postgres",
-      password : process.env.RDS_PASSWORD || "password",
-      database :process.env.RDS_DB_NAME || "turtledb",
+      password : process.env.RDS_PASSWORD || "inc0rrecT123",
+      database :process.env.RDS_DB_NAME || "TURTLE_SHELTER_PROJECT",
       port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
       ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
   }
