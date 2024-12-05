@@ -38,7 +38,8 @@
                 <div class="form-group">
                     <label for="toggleCheckBox">Have you requested an event before?</label>
                     <input type="checkbox" id="toggleCheckbox"> Yes
-                    <input type="number" id="hiddenContent" class="hidden">
+                    <label for="hiddenContent" id="phoneLabel" class="hidden">Phone Number</label>
+                    <input type="number" id="hiddenContent" class="hidden" placeholder="Phone Number">
                 </div>
                 <br>
             </section>
@@ -47,17 +48,19 @@
                     // Get the checkbox and the hidden content
                     const checkbox = document.getElementById('toggleCheckbox');
                     const hiddenContent = document.getElementById('hiddenContent');
-                    const coordinator = document.getElementID('coordinator');
-                    const phoneLabel = document.getElementID('phoneLabel')
+                    const coordinator = document.getElementByID('coordinator');
+                    const phoneLabel = document.getElementByID('phoneLabel')
                 
                     // Add an event listener to toggle the visibility of the hidden content
                     checkbox.addEventListener('change', () => {
                     if (checkbox.checked) {
                         hiddenContent.classList.remove('hidden'); // Show the content
+                        phoneLabel.classList.remove('hidden');
                         coordinator.classList.add('hidden');
                     } else {
                         hiddenContent.classList.add('hidden'); // Hide the content
                         coordinator.classList.remove('hidden');
+                        phoneLabel.classList.add('hidden');
                     }
                     });
                 </script>
