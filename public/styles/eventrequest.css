@@ -305,7 +305,7 @@ input[type="radio"]:not(:last-child) {
 button {
     padding: 12px 20px;
     font-size: 1rem;
-    background-color: #1a1a1a; /* Teal background for the button */
+    background-color: #1ABC9C; /* Teal background for the button */
     color: white;
     border: none;
     border-radius: 4px;
@@ -315,7 +315,7 @@ button {
 }
 
 button:hover {
-    background-color: #A9A9A9; /* Darker teal for hover effect */
+    background-color: #004d40; /* Darker teal for hover effect */
 }
 
 /* Responsive Design */
