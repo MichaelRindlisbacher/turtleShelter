@@ -226,53 +226,102 @@ a:visited {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.counter-container {
-  width: 50%;
+/* Counter Wrapper */
+.counter-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  padding: 10px 20px; /* Reduce padding for a more compact layout */
+  position: relative;
+  overflow: hidden; /* Ensures no overflow from animations */
 }
 
-.counter-container p {
-  font-size: 20px;
+/* Counter Content */
+.counter-content {
+  text-align: center;
+  opacity: 0; /* Initially hidden */
+  transform: translateY(10px); /* Smaller starting animation offset */
+  animation: fade-in 1.2s ease-out forwards; /* Slightly faster animation */
 }
 
-.counter-container h1 {
-  font-size: 700%;
-  color: black;
+/* Counter Number Styling */
+.counter-number {
+  font-size: 11rem; /* Smaller number size for a compact look */
+  font-weight: bold;
+  color: #16a085; /* Highlight color */
   margin: 0;
-  padding: 0;
-  text-align: left;
 }
 
-.text-box {
-  background-color: #ecf0f1;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
+/* Optional: Adjust impact text for better spacing */
+.impact-text {
+  font-size: 1rem; /* Reduce text size */
+  color: #333;
+  margin-top: 15px; /* Slightly closer to the number */
+  line-height: 1.5;
+  max-width: 500px; /* Reduce maximum width for compact design */
+}
+
+
+/* Fade-in Animation */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add scrolling effect for fade-in */
+.counter-content {
+  will-change: opacity, transform;
+  animation: fade-in-on-scroll 1.5s ease-out forwards;
+}
+
+@keyframes fade-in-on-scroll {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.counter-wrapper h2 {
+  margin-top: 0px;
+  font-size: 35px;
+}
+
+/* About Section */
+/* About Section */
+.about-wrapper {
+  max-width: 1100px;
+  padding: 40px;
+  text-align: center;
   align-items: center;
+  margin: 0 auto; /* Centers the container horizontally */
 }
 
-.img-container {
-  width: 50%;
-  margin-top: 20px;
-  padding: 10px;
+
+.about-wrapper h2 {
+  font-size: 30px;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
-.img-container img {
-  max-width: 100%;
-  height: auto;
-  margin: 0;
-  display: block;
+.about-wrapper h3 {
+  max-width: 1100px;
+  font-size: 18px;
+  color: #555;
+  line-height: 1.6;
+  align-self: center;
 }
