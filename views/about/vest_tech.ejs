@@ -12,47 +12,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
     </head>
     <body>
-        <header>
-          <nav class="navbar">
-            <a href="/" class="logo"><img src="/images/logo.png" alt="Logo"></a>
-            <a href="/" class="big-name">Turtle Shelter Project</a>
-              <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/story">Jen's Story</a></li>
-                <li class="dropdown">
-                  <a href="/about/homeless_cold" class="dropdown-toggle">About Us</a>
-                  <ul class="dropdown-menu">
-                    <!-- Add links to the dropdown menu -->
-                    <li><a href="/about/homeless_cold">Homelessness & Hypothermia</a></li>
-                    <li><a href="/about/directors">Board of Directors</a></li>
-                    <li><a href="/about/vest_tech">The Turtle Shelter Vest</a></li>
-                    <li><a href="/about/faqs">FAQs</a></li>
-                    <li><a href="/about/contact">Contact Us</a></li>
-                  </ul>
-                </li>
-                <li class="dropdown">
-                  <a href="/youhelp" class="dropdown-toggle">Get Involved</a>
-                  <ul class="dropdown-menu youhelp-dropdown">
-                    <!-- Add links to the dropdown menu -->
-                    <li><a href="/youhelp/donate">Donate</a></li>
-                    <li><a href="/youhelp/eventrequest">Request an Event</a></li>
-                    <li><a href="/youhelp/volunteer">Volunteer</a></li>
-                    <li><a href="/youhelp/sponsor">Become a Sponsor or Partner</a></li>
-                    <li><a href="/youhelp/youhelp">Other Ways to Help</a></li>
-                  </ul>
-                </li>
-              </ul>
-          </nav>
-        </header>
-        <div class="sidebar">
-          <h2>About</h2>
-          <ul>
-            <li><a href="/about/homeless_cold">Homelessness & Hypothermia</a></li>
-            <li><a href="/about/directors">Board of Directors</a></li>
-            <li><a href="/about/vest_tech" class="<%= (req.path === '/about/vest_tech') ? 'active' : '' %>">The Turtle Shelter Vest</a></li>
-            <li><a href="/about/faqs">FAQs</a></li>
-            <li><a href="/about/contact">Contact Us</a></li>
-          </ul>
-        </div>
+      <%- include('../partials/navbar.ejs') %>
+    </header>
+    <%- include('../partials/ab_sidebar.ejs') %>
 </body>
 </html>

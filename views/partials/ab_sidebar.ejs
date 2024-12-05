@@ -1,0 +1,17 @@
+<div class="sidebar">
+  <h2>About</h2>
+  <ul>
+    <% const links = [
+      { url: '/about', text: 'About the Turtle Shelter Project' },
+      { url: '/about/homeless_cold', text: 'Homelessness & Hypothermia' },
+      { url: '/about/directors', text: 'Board of Directors' },
+      { url: '/about/vest_tech', text: 'The Turtle Shelter Vest' },
+      { url: '/about/faqs', text: 'FAQs' },
+      { url: '/about/contact', text: 'Contact Us' }
+    ]; %>
+
+    <% links.forEach(link => { %>
+      <li><a href="<%= link.url %>" class="<%= (req.path === link.url) ? 'active' : '' %>"><%= link.text %></a></li>
+    <% }); %>
+  </ul>
+</div>

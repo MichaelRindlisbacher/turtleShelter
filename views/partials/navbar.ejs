@@ -1,0 +1,41 @@
+<nav class="navbar">
+    <a href="/" class="logo"><img src="/images/logo.png" alt="Logo"></a>
+    <a href="/" class="big-name">TURTLE SHELTER PROJECT</a>
+      <ul class="nav-links">
+        <% if (req.session.isAdmin) { %>
+          <li class="dropdown">
+            <a href="/admin/admin" class="dropdown-toggle">ADMIN TOOLS</a>
+            <ul class="dropdown-menu">
+              <li><a href="/events">EVENTS</a></li>
+              <li><a href="/adminvolunteer">VOLUNTEERS</a></li>
+              <li><a href="/superuser/users">USERS</a></li>
+            </ul>
+          </li>
+        <% } %>
+        <li><a href="/">HOME</a></li>
+        <li><a href="/story">JEN'S STORY</a></li>
+        <li class="dropdown">
+          <a href="/about" class="dropdown-toggle">ABOUT US</a>
+          <ul class="dropdown-menu">
+            <!-- Add links to the dropdown menu -->
+            <li><a href="/about">ABOUT THE TURTLE SHELTER PROJECT</a></li>
+            <li><a href="/about/homeless_cold">HOMELESSNESS & HYPOTHERMIA</a></li>
+            <li><a href="/about/directors">BOARD OF DIRECTORS</a></li>
+            <li><a href="/about/vest_tech">THE TURTLE SHELTER VEST</a></li>
+            <li><a href="/about/faqs">FAQs</a></li>
+            <li><a href="/about/contact">CONTACT US</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="/youhelp" class="dropdown-toggle">GET INVOLVED</a>
+          <ul class="dropdown-menu youhelp-dropdown">
+            <!-- Add links to the dropdown menu -->
+            <li><a href="/youhelp/donate">DONATE</a></li>
+            <li><a href="/youhelp/eventrequest">REQUEST AN EVENT</a></li>
+            <li><a href="/youhelp/volunteer">VOLUNTEER</a></li>
+            <li><a href="/youhelp/sponsor">BECOME A SPONSOR OR PARTNER</a></li>
+            <li><a href="/youhelp/youhelp">OTHER WAYS TO HELP</a></li>
+          </ul>
+        </li>
+      </ul>
+  </nav>
