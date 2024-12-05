@@ -33,5 +33,8 @@
             <li><a href="/youhelp/volunteer">VOLUNTEER</a></li>
           </ul>
         </li>
+        <% if (req.session.isAdmin) { %>
+          <li><a href="/login">LOGOUT</a></li>
+        <% } %>
       </ul>
   </nav>
