@@ -341,7 +341,7 @@ app.get('/events', (req, res) => {
  
  
         // Render the grouped events in the EJS template
-        res.render('admin/events', { groupedEvents });
+        res.render('admin/events', { groupedEvents, req: req });
       })
       .catch((error) => {
         console.error('Error querying database:', error);
@@ -404,7 +404,7 @@ app.get('/event/:id', (req, res) => {
       return res.status(404).send('Event not found');
     }
 
-    res.render('admin/viewevent', { event: event[0] });
+    res.render('admin/viewevent', { event: event[0], req: req });
   })
   .catch((error) => {
     console.error('Error fetching event details:', error);
@@ -421,7 +421,7 @@ app.get('/event/:id/edit', (req, res) => {
     .first()
     .then(event => {
       if (event) {
-        res.render('admin/editevent', { event });
+        res.render('admin/editevent', { event, req: req });
       } else {
         res.status(404).send('Event not found');
       }
@@ -498,7 +498,7 @@ app.get('/adminvolunteer', async (req, res) => {
     const volunteers = await db('volunteer').orderBy('volunteer_id', 'asc');
 
     // Render the adminvolunteer page with the fetched data
-    res.render('admin/adminvolunteer', { volunteers });
+    res.render('admin/adminvolunteer', { volunteers, req: req });
   } catch (error) {
     // Log the error and render an error page
     console.error('Error fetching volunteers:', error);
@@ -519,7 +519,7 @@ app.get('/viewvolunteer/:id', async (req, res) => {
     }
 
     // Render the volunteer details page
-    res.render('admin/viewvolunteer', { volunteer });
+    res.render('admin/viewvolunteer', { volunteer, req: req });
   } catch (error) {
     console.error('Error fetching volunteer:', error);
     res.status(500).send('An error occurred while fetching the volunteer.');
@@ -543,7 +543,7 @@ app.get('/editvolunteer/:id', async (req, res) => {
     }
 
     // Render the volunteer edit page
-    res.render('admin/editvolunteer', { volunteer, sources });
+    res.render('admin/editvolunteer', { volunteer, sources, req: req });
   } catch (error) {
     console.error('Error fetching volunteer:', error);
     res.status(500).send('An error occurred while fetching the volunteer.');
@@ -620,7 +620,7 @@ app.get('/superuser/users', (req, res) => {
     db('credentials')
   .select('user_id', 'user_first_name', 'user_last_name', 'username', 'password')
       .then((users) => {
-        res.render('admin/superuser/users', { users });
+        res.render('admin/superuser/users', { users, req: req });
       })
       .catch((err) => {
         console.error(err);
@@ -641,7 +641,7 @@ app.get('/superuser/viewuser/:id', async (req, res) => {
 
     if (user) {
       // Render the viewuser page with the fetched data
-      res.render('admin/superuser/viewuser', { user });
+      res.render('admin/superuser/viewuser', { user, req: req });
     } else {
       res.status(404).send('User not found');
     }
@@ -661,7 +661,7 @@ app.get('/superuser/edituser/:id', async (req, res) => {
 
     if (user) {
       // Render the edituser page with the fetched data
-      res.render('admin/superuser/edituser', { user });
+      res.render('admin/superuser/edituser', { user, req: req });
     } else {
       res.status(404).send('User not found');
     }
@@ -730,7 +730,7 @@ app.post('/login', async (req, res) => {
 app.get('/admin/admin', (req, res) => {
   if (req.session.isAdmin) {
     // Render the admin page
-    res.render('admin/admin');
+    res.render('admin/admin', {req: req});
   } else {
     // Redirect to the login page if not admin
     res.redirect('/login');
