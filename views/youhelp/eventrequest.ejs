@@ -47,19 +47,29 @@
                     // Get the checkbox and the hidden content
                     const checkbox = document.getElementById('toggleCheckbox');
                     const hiddenContent = document.getElementById('hiddenContent');
-                    const coordinator = document.getElementById('coordinator'); // Fixed typo: 'getElementID' to 'getElementById'
-                    const phoneLabel = document.getElementById('phoneLabel');   // Fixed typo: 'getElementID' to 'getElementById'
+                    const coordinator = document.getElementById('coordinator'); 
+                    const phoneLabel = document.getElementById('phoneLabel');  
 
                     // Add an event listener to toggle the visibility of the hidden content
                     checkbox.addEventListener('change', () => {
                         if (checkbox.checked) {
-                        hiddenContent.classList.remove('hidden'); // Show the content
-                        phoneLabel.classList.remove('hidden');   // Show the label
-                        if (coordinator) coordinator.classList.add('hidden'); // Hide coordinator if it exists
+                            // Show phone label and hidden content
+                            hiddenContent.classList.remove('hidden'); 
+                            phoneLabel.classList.remove('hidden');   
+
+                            // Hide coordinator section
+                            if (coordinator) {
+                                coordinator.classList.add('hidden'); 
+                            }
                         } else {
-                        hiddenContent.classList.add('hidden'); // Hide the content
-                        phoneLabel.classList.add('hidden');   // Hide the label
-                        if (coordinator) coordinator.classList.remove('hidden'); // Show coordinator if it exists
+                            // Hide phone label and hidden content
+                            hiddenContent.classList.add('hidden'); 
+                            phoneLabel.classList.add('hidden');   
+
+                            // Show coordinator section
+                            if (coordinator) {
+                                coordinator.classList.remove('hidden'); 
+                            }
                         }
                     });
                     </script>                  
