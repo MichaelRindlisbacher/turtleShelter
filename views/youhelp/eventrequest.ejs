@@ -6,11 +6,16 @@
     <title>Event Request</title>
     <link rel="icon"  type="image/png" href="/images/logo.png">
     <link rel="stylesheet" href="/styles/eventrequest.css">
+    <style>
+    .hidden {
+    display: none;
+    }
+    </style>
 </head>
 <body>
     <header>
         <%- include('../partials/navbar.ejs') %>
-      </header>
+    </header>
 
     <div class="form-container">
         <h1>Request an Event</h1>
@@ -30,7 +35,28 @@
                     <input type="radio" id="B" name="activity" value="B"> Both
                 </div>
                 <br>
+                <div class="form-group">
+                    <label for="pastEvent">Have you requested an event before?</label>
+                    <input type="checkbox" id="toggleCheckbox">
+                    <input type="number" id="hiddenContent" class="hidden"> Phone Number
+                </div>
+                <br>
             </section>
+
+                <script>
+                    // Get the checkbox and the hidden content
+                    const checkbox = document.getElementById('toggleCheckbox');
+                    const hiddenContent = document.getElementById('hiddenContent');
+                
+                    // Add an event listener to toggle the visibility of the hidden content
+                    checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        hiddenContent.classList.remove('hidden'); // Show the content
+                    } else {
+                        hiddenContent.classList.add('hidden'); // Hide the content
+                    }
+                    });
+                </script>
 
             <!-- Address Section -->
             <section class="form-section">
