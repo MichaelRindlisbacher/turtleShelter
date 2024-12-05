@@ -4,136 +4,253 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit Event</title>
+  <style>
+    /* General Body Styling */
+    body {
+        font-family: 'Open Sans', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9; /* Light background color */
+        color: #333;
+    }
+
+    /* Main Content Styling */
+    main {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        background-color: #fff; /* White background for the form area */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-top: 100px;
+    }
+
+    /* Heading Styling */
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: black; /* Teal color */
+        text-align: center;
+    }
+
+    /* Form Styling */
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Input & Label Styling */
+    label {
+        font-size: 1.1rem;
+        color: black; /* Teal color for labels */
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="datetime-local"],
+    select {
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    input[type="number"]:focus,
+    input[type="datetime-local"]:focus,
+    select:focus {
+        border-color: #00796b;
+        outline: none;
+    }
+
+    /* Radio Buttons Styling */
+    input[type="radio"] {
+        margin-right: 10px;
+    }
+
+    div {
+        margin-bottom: 15px;
+    }
+
+    /* Submit Button Styling */
+    button {
+        background-color: #1ABC9C;
+        color: white;
+        font-size: 1.2rem;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #004d40; /* Darker teal on hover */
+    }
+
+    /* Responsive Design for Small Screens */
+    @media (max-width: 768px) {
+        main {
+            padding: 20px 15px;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        label {
+            font-size: 1rem;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="datetime-local"],
+        select {
+            font-size: 0.9rem;
+        }
+    }
+
+  </style>
 </head>
 <body>
-  <h1>Edit Event</h1>
+  <main>
+    <h1>Edit Event</h1>
 
-  <form action="/event/<%= event.event_id %>/edit" method="POST">
-    <!-- Coordinator Fields -->
-    <input type="hidden" name="coordinator_id" value="<%= event.coordinator_id %>">
-    <div>
-      <label for="coord_first_name">Coordinator First Name:</label>
-      <input type="text" name="coord_first_name" value="<%= event.coord_first_name %>" oninput="this.value = this.value.toUpperCase()">
-    </div>
-
-    <div>
-      <label for="coord_last_name">Coordinator Last Name:</label>
-      <input type="text" name="coord_last_name" value="<%= event.coord_last_name %>" oninput="this.value = this.value.toUpperCase()">
-    </div>
-
-    <div>
-      <label for="coord_phone">Coordinator Phone:</label>
-      <input type="tel" name="coord_phone" value="<%= event.coord_phone %>">
-    </div>
-
-    <!-- Common Fields -->
-    <div>
-      <label for="activity">Activity:</label>
-      <input type="radio" name="activity" value="S" <%= event.activity === 'S' ? 'checked' : '' %>> Sewing
-      <input type="radio" name="activity" value="N" <%= event.activity === 'N' ? 'checked' : '' %>> Non-sewing
-      <input type="radio" name="activity" value="B" <%= event.activity === 'B' ? 'checked' : '' %>> Both
-    </div>
-
-    <div>
-      <label for="event_street_address">Event Street Address:</label>
-      <input type="text" name="event_street_address" value="<%= event.event_street_address %>" oninput="this.value = this.value.toUpperCase()">
-    </div>
-
-    <div>
-      <label for="event_city">Event City:</label>
-      <input type="text" name="event_city" value="<%= event.event_city %>" oninput="this.value = this.value.toUpperCase()">
-    </div>
-
-    <div>
-      <label for="event_state">Event State:</label>
-      <input type="text" name="event_state" value="<%= event.event_state %>" oninput="this.value = this.value.toUpperCase()">
-    </div>
-
-    <div>
-      <label for="event_zip">Event Zip:</label>
-      <input type="text" name="event_zip" value="<%= event.event_zip %>">
-    </div>
-
-    <div>
-      <label for="num_expected_participants">Expected Participants:</label>
-      <input type="number" name="num_expected_participants" value="<%= event.num_expected_participants %>">
-    </div>
-
-    <div>
-      <label for="expected_duration">Expected Duration (hours):</label>
-      <input type="number" name="expected_duration" value="<%= event.expected_duration %>">
-    </div>
-
-    <div>
-      <label for="date">Event Date:</label>
-      <input type="datetime-local" name="date" value="<%= new Date(event.date).toISOString().slice(0, 16) %>">
-    </div>
-
-    <div>
-      <label for="start_time">Start Time:</label>
-      <input type="datetime-local" name="start_time" value="<%= new Date(event.start_time).toISOString().slice(0, 16) %>">
-    </div>
-
-    <div>
-      <label for="jen_story">Jen Story (Y/N):</label>
-      <input type="text" name="jen_story" value="<%= event.jen_story %>" oninput="this.value = this.value.toUpperCase()">
-    </div>
-
-    <div>
-      <label for="status">Status:</label>
-      <select name="status">
-        <option value="PENDING" <%= event.status === 'PENDING' ? 'selected' : '' %>>Pending</option>
-        <option value="APPROVED" <%= event.status === 'APPROVED' ? 'selected' : '' %>>Approved</option>
-        <option value="COMPLETED" <%= event.status === 'COMPLETED' ? 'selected' : '' %>>Completed</option>
-        <option value="DECLINED" <%= event.status === 'DECLINED' ? 'selected' : '' %>>Declined</option>
-      </select>
-    </div>
-
-    <div>
-      <label for="num_team_members">Number of Team Members:</label>
-      <input type="number" name="num_team_members" value="<%= event.num_team_members %>">
-    </div>
-
-    <% if (event.status === 'COMPLETED') { %>
-      <!-- Fields for Completed Events -->
+    <form action="/event/<%= event.event_id %>/edit" method="POST">
+      <!-- Coordinator Fields -->
+      <input type="hidden" name="coordinator_id" value="<%= event.coordinator_id %>">
       <div>
-        <label for="num_actual_participants">Actual Participants:</label>
-        <input type="number" name="num_actual_participants" value="<%= event.num_actual_participants %>">
+        <label for="coord_first_name">Coordinator First Name:</label>
+        <input type="text" name="coord_first_name" value="<%= event.coord_first_name %>" oninput="this.value = this.value.toUpperCase()">
       </div>
 
       <div>
-        <label for="actual_duration">Actual Duration (hours):</label>
-        <input type="number" name="actual_duration" value="<%= event.actual_duration %>">
+        <label for="coord_last_name">Coordinator Last Name:</label>
+        <input type="text" name="coord_last_name" value="<%= event.coord_last_name %>" oninput="this.value = this.value.toUpperCase()">
       </div>
 
       <div>
-        <label for="num_pockets">Number of Pockets:</label>
-        <input type="number" name="num_pockets" value="<%= event.num_pockets %>">
+        <label for="coord_phone">Coordinator Phone:</label>
+        <input type="tel" name="coord_phone" value="<%= event.coord_phone %>">
+      </div>
+
+      <!-- Common Fields -->
+      <div>
+        <label for="activity">Activity:</label>
+        <input type="radio" name="activity" value="S" <%= event.activity === 'S' ? 'checked' : '' %>> Sewing
+        <input type="radio" name="activity" value="N" <%= event.activity === 'N' ? 'checked' : '' %>> Non-sewing
+        <input type="radio" name="activity" value="B" <%= event.activity === 'B' ? 'checked' : '' %>> Both
       </div>
 
       <div>
-        <label for="num_collars">Number of Collars:</label>
-        <input type="number" name="num_collars" value="<%= event.num_collars %>">
+        <label for="event_street_address">Event Street Address:</label>
+        <input type="text" name="event_street_address" value="<%= event.event_street_address %>" oninput="this.value = this.value.toUpperCase()">
       </div>
 
       <div>
-        <label for="num_envelopes">Number of Envelopes:</label>
-        <input type="number" name="num_envelopes" value="<%= event.num_envelopes %>">
+        <label for="event_city">Event City:</label>
+        <input type="text" name="event_city" value="<%= event.event_city %>" oninput="this.value = this.value.toUpperCase()">
       </div>
 
       <div>
-        <label for="num_vests">Number of Vests:</label>
-        <input type="number" name="num_vests" value="<%= event.num_vests %>">
+        <label for="event_state">Event State:</label>
+        <input type="text" name="event_state" value="<%= event.event_state %>" oninput="this.value = this.value.toUpperCase()">
       </div>
 
       <div>
-        <label for="total_products">Total Products:</label>
-        <input type="number" name="total_products" value="<%= event.total_products %>">
+        <label for="event_zip">Event Zip:</label>
+        <input type="text" name="event_zip" value="<%= event.event_zip %>">
       </div>
-    <% } %>
 
-    <!-- Submit Button -->
-    <button type="submit">Save Changes</button>
-  </form>
+      <div>
+        <label for="num_expected_participants">Expected Participants:</label>
+        <input type="number" name="num_expected_participants" value="<%= event.num_expected_participants %>">
+      </div>
+
+      <div>
+        <label for="expected_duration">Expected Duration (hours):</label>
+        <input type="number" name="expected_duration" value="<%= event.expected_duration %>">
+      </div>
+
+      <div>
+        <label for="date">Event Date:</label>
+        <input type="datetime-local" name="date" value="<%= new Date(event.date).toISOString().slice(0, 16) %>">
+      </div>
+
+      <div>
+        <label for="start_time">Start Time:</label>
+        <input type="datetime-local" name="start_time" value="<%= new Date(event.start_time).toISOString().slice(0, 16) %>">
+      </div>
+
+      <div>
+        <label for="jen_story">Jen Story (Y/N):</label>
+        <input type="text" name="jen_story" value="<%= event.jen_story %>" oninput="this.value = this.value.toUpperCase()">
+      </div>
+
+      <div>
+        <label for="status">Status:</label>
+        <select name="status">
+          <option value="PENDING" <%= event.status === 'PENDING' ? 'selected' : '' %>>Pending</option>
+          <option value="APPROVED" <%= event.status === 'APPROVED' ? 'selected' : '' %>>Approved</option>
+          <option value="COMPLETED" <%= event.status === 'COMPLETED' ? 'selected' : '' %>>Completed</option>
+          <option value="DECLINED" <%= event.status === 'DECLINED' ? 'selected' : '' %>>Declined</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="num_team_members">Number of Team Members:</label>
+        <input type="number" name="num_team_members" value="<%= event.num_team_members %>">
+      </div>
+
+      <% if (event.status === 'COMPLETED') { %>
+        <!-- Fields for Completed Events -->
+        <div>
+          <label for="num_actual_participants">Actual Participants:</label>
+          <input type="number" name="num_actual_participants" value="<%= event.num_actual_participants %>">
+        </div>
+
+        <div>
+          <label for="actual_duration">Actual Duration (hours):</label>
+          <input type="number" name="actual_duration" value="<%= event.actual_duration %>">
+        </div>
+
+        <div>
+          <label for="num_pockets">Number of Pockets:</label>
+          <input type="number" name="num_pockets" value="<%= event.num_pockets %>">
+        </div>
+
+        <div>
+          <label for="num_collars">Number of Collars:</label>
+          <input type="number" name="num_collars" value="<%= event.num_collars %>">
+        </div>
+
+        <div>
+          <label for="num_envelopes">Number of Envelopes:</label>
+          <input type="number" name="num_envelopes" value="<%= event.num_envelopes %>">
+        </div>
+
+        <div>
+          <label for="num_vests">Number of Vests:</label>
+          <input type="number" name="num_vests" value="<%= event.num_vests %>">
+        </div>
+
+        <div>
+          <label for="total_products">Total Products:</label>
+          <input type="number" name="total_products" value="<%= event.total_products %>">
+        </div>
+      <% } %>
+
+      <!-- Submit Button -->
+      <button type="submit">Save Changes</button>
+    </form>
+  </main>
 </body>
 </html>

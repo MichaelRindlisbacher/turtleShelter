@@ -415,9 +415,11 @@ app.get('/event/:id/edit', (req, res) => {
 });
 
 
-// Route to update an event and its coordinator
 app.post('/event/:id/edit', (req, res) => {
   const eventId = req.params.id;
+
+  // Log received coordinator_id for debugging
+  console.log('Coordinator ID received:', req.body.coordinator_id);
 
   // Ensure that all fields are properly set for the event
   const updatedEvent = {
@@ -450,33 +452,59 @@ app.post('/event/:id/edit', (req, res) => {
     coord_phone: req.body.coord_phone,
   };
 
-  // Start a transaction to update both the event and coordinator tables
-  db.transaction(trx => {
-    // Update the event
-    trx('event')
-      .where('event_id', eventId)
-      .update(updatedEvent)
-      .then(() => {
-        // Update the coordinator
-        return trx('coordinator')
-          .where('coordinator_id', req.body.coordinator_id) // Use the coordinator_id from the form
-          .update(updatedCoordinator);
+  // Get coordinator_id from form data and check if it's missing
+  let coordinatorId = req.body.coordinator_id;
+  
+  // If coordinator_id is not provided, create a new coordinator
+  if (!coordinatorId || coordinatorId.trim() === "") {
+    // Create new coordinator and get the generated ID
+    db('coordinator')
+      .insert(updatedCoordinator)
+      .returning('coordinator_id')
+      .then(newCoordinatorId => {
+        // Use the new coordinator_id in the event update
+        coordinatorId = newCoordinatorId[0].coordinator_id;
+
+        // Now update the event with the new coordinator_id
+        return db('event')
+          .where('event_id', eventId)
+          .update({
+            ...updatedEvent,
+            coordinator_id: coordinatorId
+          });
       })
       .then(() => {
-        // Commit the transaction
-        trx.commit();
-        // Redirect back to the events page
+        // Redirect or handle the response after updating
         res.redirect('/events');
       })
       .catch(error => {
-        // Rollback the transaction in case of error
-        trx.rollback();
         console.error('Error updating event and coordinator:', error);
         res.status(500).send('Error updating event and coordinator');
       });
-  });
+  } else {
+    // If coordinator_id is provided, just update the event
+    db('event')
+      .where('event_id', eventId)
+      .update({
+        ...updatedEvent,
+        coordinator_id: coordinatorId // Use the existing coordinator_id
+      })
+      .then(() => {
+        // Update the coordinator if necessary
+        return db('coordinator')
+          .where('coordinator_id', coordinatorId)
+          .update(updatedCoordinator);
+      })
+      .then(() => {
+        // Redirect or handle the response after updating
+        res.redirect('/events');
+      })
+      .catch(error => {
+        console.error('Error updating event and coordinator:', error);
+        res.status(500).send('Error updating event and coordinator');
+      });
+  }
 });
-
 
 
 //DELETE an event
@@ -749,43 +777,54 @@ app.get('/addevent', (req, res) => {
 });
 
 // Route to update an event
-app.post('/addevent', (req, res) => {
+app.post('/addevent', async (req, res) => {
+  try {
+    // Ensure that all fields are properly set for the coordinator
+    const newCoordinator = {
+      coord_first_name: req.body.coord_first_name,
+      coord_last_name: req.body.coord_last_name,
+      coord_phone: req.body.coord_phone,
+    };
 
-  // Ensure that all fields are properly set
-  const newEvent = {
-    activity: req.body.activity,
-    event_street_address: req.body.event_street_address,
-    event_city: req.body.event_city,
-    event_state: req.body.event_state,
-    event_zip: req.body.event_zip,
-    num_expected_participants: req.body.num_expected_participants ? parseInt(req.body.num_expected_participants) : null,
-    expected_duration: req.body.expected_duration ? parseInt(req.body.expected_duration) : null,
-    option_num: req.body.option_num ? parseInt(req.body.option_num) : null,
-    date: req.body.date,
-    start_time: req.body.start_time,
-    jen_story: req.body.jen_story,
-    num_actual_participants: req.body.num_actual_participants ? parseInt(req.body.num_actual_participants) : null,
-    actual_duration: req.body.actual_duration ? parseInt(req.body.actual_duration) : null,
-    num_pockets: req.body.num_pockets ? parseInt(req.body.num_pockets) : null,
-    num_collars: req.body.num_collars ? parseInt(req.body.num_collars) : null,
-    num_envelopes: req.body.num_envelopes ? parseInt(req.body.num_envelopes) : null,
-    num_vests: req.body.num_vests ? parseInt(req.body.num_vests) : null,
-    total_products: req.body.total_products ? parseInt(req.body.total_products) : null,
-    status: req.body.status,
-    num_team_members: req.body.num_team_members ? parseInt(req.body.num_team_members) : null,
-  };
+    // Insert the coordinator and get the coordinator_id
+    const [coordinator] = await db('coordinator').insert(newCoordinator).returning('coordinator_id');
+    
+    // Ensure that all fields are properly set for the event, including the coordinator_id
+    const newEvent = {
+      activity: req.body.activity,
+      event_street_address: req.body.event_street_address,
+      event_city: req.body.event_city,
+      event_state: req.body.event_state,
+      event_zip: req.body.event_zip,
+      num_expected_participants: req.body.num_expected_participants ? parseInt(req.body.num_expected_participants) : null,
+      expected_duration: req.body.expected_duration ? parseInt(req.body.expected_duration) : null,
+      option_num: req.body.option_num ? parseInt(req.body.option_num) : null,
+      date: req.body.date,
+      start_time: req.body.start_time,
+      jen_story: req.body.jen_story,
+      num_actual_participants: req.body.num_actual_participants ? parseInt(req.body.num_actual_participants) : null,
+      actual_duration: req.body.actual_duration ? parseInt(req.body.actual_duration) : null,
+      num_pockets: req.body.num_pockets ? parseInt(req.body.num_pockets) : null,
+      num_collars: req.body.num_collars ? parseInt(req.body.num_collars) : null,
+      num_envelopes: req.body.num_envelopes ? parseInt(req.body.num_envelopes) : null,
+      num_vests: req.body.num_vests ? parseInt(req.body.num_vests) : null,
+      total_products: req.body.total_products ? parseInt(req.body.total_products) : null,
+      status: req.body.status,
+      num_team_members: req.body.num_team_members ? parseInt(req.body.num_team_members) : null,
+      coordinator_id: coordinator.coordinator_id, // Set the coordinator_id for the event
+    };
 
-  db('event')
-    .insert(newEvent)
-    .then(() => {
-      // Redirect back to the events page
-      res.redirect('/events');
-    })
-    .catch((error) => {
-      console.error('Error adding event:', error);
-      res.status(500).send('Error adding event');
-    });
+    // Insert the event
+    await db('event').insert(newEvent);
+
+    // Redirect back to the events page
+    res.redirect('/events');
+  } catch (error) {
+    console.error('Error adding event:', error);
+    res.status(500).send('Error adding event');
+  }
 });
+
 
 // get addvolunteer
 app.get('/addvolunteer', (req, res) => {
