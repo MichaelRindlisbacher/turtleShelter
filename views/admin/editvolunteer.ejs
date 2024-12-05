@@ -5,13 +5,139 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit Volunteer</title>
   <link rel="stylesheet" href="/public/styles.css">
+  <style>
+    /* General Body Styling */
+    body {
+        font-family: 'Open Sans', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9; /* Light background color */
+        color: #333;
+    }
+
+    /* Main Content Styling */
+    main {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        background-color: #fff; /* White background for the form area */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-top: 100px;
+    }
+
+    /* Heading Styling */
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: black; /* Teal color */
+        text-align: center;
+    }
+
+    /* Form Styling */
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* Input & Label Styling */
+    label {
+        font-size: 1.1rem;
+        color: black;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="email"],
+    select {
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    input[type="number"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+        border-color: #00796b;
+        outline: none;
+    }
+
+    /* Fix for email input */
+    input[type="email"] {
+        width: 100%;
+    }
+
+    /* Radio Buttons Styling */
+    .sewing-level-group {
+        display: column;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .sewing-level-group div {
+        display: flex;
+        align-items: center;
+    }
+
+    input[type="radio"] {
+        margin-right: 10px;
+    }
+
+    /* Submit Button Styling */
+    button {
+        background-color: #1ABC9C;
+        color: white;
+        font-size: 1.2rem;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #004d40; /* Darker teal on hover */
+    }
+
+    /* Responsive Design for Small Screens */
+    @media (max-width: 768px) {
+        main {
+            padding: 20px 15px;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        label {
+            font-size: 1rem;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="email"],
+        select {
+            font-size: 0.9rem;
+        }
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Edit Volunteer</h2>
+  <main>
+    <h1>Edit Volunteer</h1>
     <!-- Display a form to edit the volunteer's information -->
     <form action="/editvolunteer/<%= volunteer.volunteer_id %>/edit" method="POST">
-        <div class="form-group">
+      <div class="form-group">
         <label for="vol_first_name">First Name</label>
         <input type="text" id="vol_first_name" name="vol_first_name" value="<%= volunteer.vol_first_name %>" required>
       </div>
@@ -51,9 +177,9 @@
           <% }); %>
         </select>
       </div>
-      <div class="form-group">
+      <div class="form-group sewing-level-group">
         <label for="sewing_level">Sewing Level</label>
-        <div>
+        <br><br><div>
           <input type="radio" id="beginner" name="sewing_level" value="B" <%= volunteer.sewing_level === 'B' ? 'checked' : '' %>> 
           <label for="beginner">Beginner</label>
         </div>
@@ -65,7 +191,7 @@
           <input type="radio" id="advanced" name="sewing_level" value="A" <%= volunteer.sewing_level === 'A' ? 'checked' : '' %>> 
           <label for="advanced">Advanced</label>
         </div>
-      </div>      
+      </div>
       <div class="form-group">
         <label for="num_hours">Number of Hours</label>
         <input type="number" id="num_hours" name="num_hours" value="<%= volunteer.num_hours %>" required>
@@ -73,7 +199,6 @@
       
       <button type="submit" class="button">Save Changes</button>
     </form>
-    <a href="/adminvolunteer" class="button">Back to Volunteers List</a>
-  </div>
+  </main>
 </body>
 </html>
