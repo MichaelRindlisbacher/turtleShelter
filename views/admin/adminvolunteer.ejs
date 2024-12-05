@@ -11,131 +11,137 @@
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background-color: #2c3e50;
-      color: white;
-      padding: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .volunteer-container h1 {
-    align-self: flex-start; /* Aligns only <h2> to the end of the container */
-    font-size: 28px;
-    color: #2c3e50;
-    margin: 20px 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
 }
 
+header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    .volunteer-container {
-      padding: 100px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center; /* Center cards horizontally */
-    }
+.volunteer-container h1 {
+  align-self: flex-start;
+  font-size: 28px;
+  color: #2c3e50;
+  margin: 20px 0;
+}
 
-    .volunteer-card {
-      background-color: #ecf0f1;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 95%; /* Adjust width */
-      max-width: 1200px; /* Match the width style of the events page */
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+.volunteer-container {
+  padding: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: stretch; /* Ensures child elements span full width */
+}
 
-    .volunteer-summary {
-      flex: 1;
-    }
+.add-button-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns the button to the right */
+}
 
-    .volunteer-summary table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: auto; /* Allows table cells to auto adjust based on content */
-    }
+.volunteer-container .add-button {
+  background-color: #16a085;
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
 
-    .volunteer-summary table th, .volunteer-summary table td {
-      padding: 3px 5px; /* Small padding to reduce space */
-      vertical-align: top;
-    }
+.volunteer-container .add-button:hover {
+  background-color: #1abc9c;
+}
 
-    .volunteer-summary table th {
-      text-align: left;
-      font-weight: bold;
-      color: #555;
-    }
+.volunteer-card {
+  background-color: #ecf0f1;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  max-width: 1200px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-    .volunteer-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      justify-content: center; /* Center buttons vertically within the card */
-    }
+.volunteer-summary {
+  flex: 1;
+}
 
-    .volunteer-actions button {
-      background-color: #16a085;
-      border: none;
-      color: white;
-      padding: 10px 15px;
-      cursor: pointer;
-      border-radius: 5px;
-      font-size: 14px;
-      transition: background-color 0.3s ease;
-      text-align: center;
-    }
+.volunteer-summary table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
 
-    .volunteer-actions button:hover {
-      background-color: #1abc9c;
-    }
+.volunteer-summary table th,
+.volunteer-summary table td {
+  padding: 3px 5px;
+  vertical-align: top;
+}
 
-    .volunteer-actions form {
-      display: inline;
-    }
+.volunteer-summary table th {
+  text-align: left;
+  font-weight: bold;
+  color: #555;
+}
 
-    /* Add hover effect for cards */
-    .volunteer-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
+.volunteer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
 
-    /* Responsive Layout for Small Screens */
-    @media (max-width: 768px) {
-      .volunteer-card {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+.volunteer-actions button {
+  background-color: #16a085;
+  border: none;
+  color: white;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
 
-      .volunteer-actions {
-        align-self: flex-start;
-      }
-    }
+.volunteer-actions button:hover {
+  background-color: #1abc9c;
+}
 
-    /* note that this overwrites volunteer-actions button */
-    .volunteer-container button {
-      background-color: #16a085;
-      border: none;
-      color: white;
-      padding: 10px 15px;
-      cursor: pointer;
-      border-radius: 5px;
-      font-size: 14px;
-      transition: background-color 0.3s ease;
-      text-align: center;
-      float: right;
-      margin-right: 20px;
-    }
+.volunteer-actions form {
+  display: inline;
+}
+
+.volunteer-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Layout for Small Screens */
+@media (max-width: 768px) {
+  .volunteer-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .volunteer-actions {
+    align-self: flex-start;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -144,9 +150,11 @@
   </header>
   <div class="volunteer-container">
     <h1>Volunteers</h1>
-    <form action="/addvolunteer" method="GET">
-      <button type="submit" class="button">Add Volunteer</button>
-    </form>
+    <div class="add-button-container">
+      <form action="/addvolunteer" method="GET">
+        <button type="submit" class="add-button">Add Volunteer</button>
+      </form>
+    </div>
     <% volunteers.forEach(volunteer => { %>
       <div class="volunteer-card">
         <div class="volunteer-summary">
