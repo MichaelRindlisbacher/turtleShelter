@@ -243,7 +243,6 @@ a:visited {
 
 .counter-container p {
   font-size: 20px;
-  margin-left: 20px;
 }
 
 .counter-container h1 {
@@ -252,7 +251,6 @@ a:visited {
   margin: 0;
   padding: 0;
   text-align: left;
-  margin-left: 20px;
 }
 
 .text-box {
