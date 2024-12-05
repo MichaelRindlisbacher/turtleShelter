@@ -782,6 +782,56 @@ app.post('/addevent', (req, res) => {
     });
 });
 
+// get addvolunteer
+app.get('/addvolunteer', (req, res) => {
+  const sources = ['Website', 'Social Media', 'Flyer', 'Referral', 'Other'];
+  res.render('admin/addvolunteer', {req: req, sources});
+});
+
+// Route to process the edit volunteer form
+app.post('/addvolunteer', async (req, res) => {
+  const {
+    vol_first_name,
+    vol_last_name,
+    vol_email,
+    vol_phone,
+    vol_street_address,
+    vol_city,
+    vol_state,
+    vol_zip,
+    source,
+    sewing_level,
+    num_hours,
+  } = req.body;
+
+  try {
+    // Convert all form data to uppercase before saving
+    const updatedVolunteer = {
+      vol_first_name: vol_first_name.toUpperCase(),
+      vol_last_name: vol_last_name.toUpperCase(),
+      vol_email: vol_email.toUpperCase(),
+      vol_phone: vol_phone.toUpperCase(),
+      vol_street_address: vol_street_address.toUpperCase(),
+      vol_city: vol_city.toUpperCase(),
+      vol_state: vol_state.toUpperCase(),
+      vol_zip: vol_zip.toUpperCase(),
+      source: source.toUpperCase(),
+      sewing_level: sewing_level.toUpperCase(),
+      num_hours,
+    };
+
+    // Update the volunteer information in the database
+    await db('volunteer')
+      .insert(updatedVolunteer);
+
+    // Redirect to the volunteer list or another page
+    res.redirect('/adminvolunteer');
+  } catch (error) {
+    console.error('Error updating volunteer:', error);
+    res.status(500).send('An error occurred while updating the volunteer.');
+  }
+});
+
 // start the server
 app.listen(port, () => {
   console.log(`Server is running`);

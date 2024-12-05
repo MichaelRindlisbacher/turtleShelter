@@ -121,6 +121,21 @@
         align-self: flex-start;
       }
     }
+
+    /* note that this overwrites volunteer-actions button */
+    .volunteer-container button {
+      background-color: #16a085;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+      text-align: center;
+      float: right;
+      margin-right: 20px;
+    }
   </style>
 </head>
 <body>
@@ -129,6 +144,9 @@
   </header>
   <div class="volunteer-container">
     <h1>Volunteers</h1>
+    <form action="/addvolunteer" method="GET">
+      <button type="submit" class="button">Add Volunteer</button>
+    </form>
     <% volunteers.forEach(volunteer => { %>
       <div class="volunteer-card">
         <div class="volunteer-summary">
