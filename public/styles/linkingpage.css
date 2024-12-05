@@ -109,3 +109,9 @@ p {
 .contact-list li {
   margin-bottom: 10px;
 }
+
+.content {
+  margin-left: 240px;
+  padding: 20px;
+  margin-bottom: 100px;
+}
