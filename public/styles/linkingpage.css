@@ -4,6 +4,17 @@ main {
     padding: 20px;
 }
 
+main ul {
+  font-family: 'Montserrat', serif;
+  font-size: 16px;
+  margin-left: 0; /* reset the margin-left to 0 */
+  padding-left: 0; /* reset the padding-left to 0 */
+}
+
+main ul li {
+  margin-bottom: 10px; /* add some margin-bottom to separate list items */
+}
+
 h1 {
     font-size: 24px;
     margin-bottom: 10px;
@@ -86,4 +97,15 @@ p {
 
 .sidebar ul li a.active:hover {
   color: #0097A7;
+}
+
+.contact-list {
+  font-family: 'Montserrat', serif;
+  font-size: 16px;
+  margin-left: 220px;
+  padding-left: 0;
+}
+
+.contact-list li {
+  margin-bottom: 10px;
 }
