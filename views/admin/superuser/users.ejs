@@ -55,6 +55,7 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        position: relative; /* Added for absolute positioning of actions */
         }
 
         .user-card:hover {
@@ -88,19 +89,22 @@
 
         .user-actions {
         display: flex;
-        flex-direction: column;
-        gap: 10px;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
+        flex-direction: row;
+        gap: 0px; /* Reduced gap between buttons */
+        justify-content: flex-start; /* Align buttons to the left */
+        align-items: flex-start; /* Align buttons to the top */
+        position: absolute; /* Positioning buttons in the upper-right corner */
+        top: 15px;
+        right: -10px;
         }
 
         .user-actions button {
         background-color: #16a085;
         border: none;
         color: white;
-        padding: 10px 15px;
-        margin: 5px;
+        padding: 8px 12px; /* Adjust padding for smaller buttons */
+        margin-bottom: 10px;
+        margin: 0; /* Remove any margin */
         cursor: pointer;
         border-radius: 5px;
         font-size: 14px;
@@ -115,47 +119,20 @@
         display: inline;
         }
 
-        /* Adjusting button alignment to be vertically centered on the right side */
-        .user-card {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        }
-
+        /* Adjusting layout for user card summary and actions */
         .user-summary {
         flex: 1;
         }
 
-        .user-actions {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin-top: 20px;
-        }
-
         .user-summary table td:first-child {
-        width: 100px;  /* Space between label and content */
-        }
-
-        button {
-        background-color: #16a085;
-        border: none;
-        color: white;
-        padding: 10px 15px;
-        margin: 5px;
-        cursor: pointer;
-        border-radius: 5px;
-        font-size: 14px;
-        text-align: center;
-        margin-right: 10px;
+        width: 100px; /* Space between label and content */
         }
 
         /* Fix for Add User button alignment */
         form {
         display: flex;
         justify-content: flex-end; /* Aligns the button to the right */
-        margin: 0 40px 20px 40px; /* Adds spacing around the form */
+        margin: 0 40px 20px -30px; /* Adds spacing around the form */
         }
 
         .button {
@@ -174,6 +151,18 @@
         background-color: #1abc9c;
         }
 
+        /* Responsive Layout for Small Screens */
+        @media (max-width: 768px) {
+        .user-card {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .user-actions {
+            position: static;
+            margin-top: 10px;
+        }
+        }
 
     </style>
 </head>
@@ -203,9 +192,9 @@
                 </div>
 
                 <div class="user-actions">
-                    <form action="/superuser/viewuser/<%= user.user_id %>" method="GET">
+                    <!-- <form action="/superuser/viewuser/<%= user.user_id %>" method="GET">
                         <button type="submit">View</button>
-                    </form>
+                    </form> -->
                     <form action="/superuser/edituser/<%= user.user_id %>" method="GET">
                         <button type="submit">Edit</button>
                     </form>

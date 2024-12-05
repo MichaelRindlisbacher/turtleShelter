@@ -70,12 +70,15 @@ header {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 15px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column; /* Stack elements vertically */
+  justify-content: flex-start; /* Align child elements at the top */
+  align-items: stretch; /* Make sure child elements stretch across full width */
+  position: relative; /* Allow absolute positioning of child elements */
   width: 95%;
   max-width: 1200px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 
 .volunteer-summary {
   flex: 1;
@@ -101,9 +104,12 @@ header {
 
 .volunteer-actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
-  justify-content: center;
+  justify-content: flex-start; /* Align buttons to the left */
+  position: absolute;
+  top: 30px; /* Aligns it to the top of the card */
+  right: 15px; /* Aligns it to the right of the card */
 }
 
 .volunteer-actions button {
@@ -194,9 +200,9 @@ header {
           </table>
         </div>
         <div class="volunteer-actions">
-          <form action="/viewvolunteer/<%= volunteer.volunteer_id %>" method="GET">
+          <!-- <form action="/viewvolunteer/<%= volunteer.volunteer_id %>" method="GET">
             <button type="submit">View</button>
-          </form>
+          </form> -->
           <form action="/editvolunteer/<%= volunteer.volunteer_id %>" method="GET">
             <button type="submit">Edit</button>
           </form>
