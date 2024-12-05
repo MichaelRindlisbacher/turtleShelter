@@ -527,6 +527,9 @@ app.post('/event/:id/delete', async (req, res) => {
 
 //Route to view all volunteers
 app.get('/adminvolunteer', async (req, res) => {
+  if (req.session.isAdmin) {
+    
+  
   try {
     // Fetch all volunteers, ordered by volunteer_id
     const volunteers = await db('volunteer').orderBy('volunteer_id', 'asc');
@@ -537,6 +540,10 @@ app.get('/adminvolunteer', async (req, res) => {
     // Log the error and render an error page
     console.error('Error fetching volunteers:', error);
 
+  }
+
+  } else {
+    res.redirect('/login'); // Redirect if not admin
   }
 });
 
