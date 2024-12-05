@@ -27,8 +27,8 @@ const db = require("knex") ({ // Setting up connection with pg database
   connection : {
       host : process.env.RDS_HOSTNAME || "localhost",
       user : process.env.RDS_USERNAME || "postgres",
-      password : process.env.RDS_PASSWORD || "Sant1ag020",
-      database :process.env.RDS_DB_NAME || "turtle_shelter_project",
+      password : process.env.RDS_PASSWORD || "Btarwars12",
+      database :process.env.RDS_DB_NAME || "TURTLE_SHELTER_PROJECT",
       port : process.env.RDS_PORT || 5432, // Check port under the properties and connection of the database you're using in pgadmin4
       ssl : process.env.DB_SSL ? {rejectUnauthorized: false} : false
   }
@@ -304,7 +304,7 @@ app.get('/events', (req, res) => {
         'coordinator.coord_last_name',
         'coordinator.coord_phone'
       )
-      .join('coordinator', 'event.coordinator_id', '=', 'coordinator.coordinator_id') // Join event table with coordinator table
+      .leftJoin('coordinator', 'event.coordinator_id', '=', 'coordinator.coordinator_id') // Join event table with coordinator table
       .orderBy('event.date_created', 'desc')
       .then((events) => {
         // Group events by location (street address, city, state, zip) and status
@@ -730,6 +730,50 @@ app.get('/admin/admin', (req, res) => {
     // Redirect to the login page if not admin
     res.redirect('/login');
   }
+});
+
+// get addevent
+app.get('/addevent', (req, res) => {
+  res.render('admin/addevent', {req: req});
+});
+
+// Route to update an event
+app.post('/addevent', (req, res) => {
+
+  // Ensure that all fields are properly set
+  const newEvent = {
+    activity: req.body.activity,
+    event_street_address: req.body.event_street_address,
+    event_city: req.body.event_city,
+    event_state: req.body.event_state,
+    event_zip: req.body.event_zip,
+    num_expected_participants: req.body.num_expected_participants ? parseInt(req.body.num_expected_participants) : null,
+    expected_duration: req.body.expected_duration ? parseInt(req.body.expected_duration) : null,
+    option_num: req.body.option_num ? parseInt(req.body.option_num) : null,
+    date: req.body.date,
+    start_time: req.body.start_time,
+    jen_story: req.body.jen_story,
+    num_actual_participants: req.body.num_actual_participants ? parseInt(req.body.num_actual_participants) : null,
+    actual_duration: req.body.actual_duration ? parseInt(req.body.actual_duration) : null,
+    num_pockets: req.body.num_pockets ? parseInt(req.body.num_pockets) : null,
+    num_collars: req.body.num_collars ? parseInt(req.body.num_collars) : null,
+    num_envelopes: req.body.num_envelopes ? parseInt(req.body.num_envelopes) : null,
+    num_vests: req.body.num_vests ? parseInt(req.body.num_vests) : null,
+    total_products: req.body.total_products ? parseInt(req.body.total_products) : null,
+    status: req.body.status,
+    num_team_members: req.body.num_team_members ? parseInt(req.body.num_team_members) : null,
+  };
+
+  db('event')
+    .insert(newEvent)
+    .then(() => {
+      // Redirect back to the events page
+      res.redirect('/events');
+    })
+    .catch((error) => {
+      console.error('Error adding event:', error);
+      res.status(500).send('Error adding event');
+    });
 });
 
 // start the server

@@ -244,6 +244,9 @@ a:hover {
 
   <div class="events-container">
     <h2>Events</h2>
+    <form action="/addevent" method="GET" style="float: right;">
+      <button type="submit" class="button">Add Event</button>
+    </form>
 
     <!-- Display Pending Events -->
     <% if (groupedEvents['PENDING']) { %>
