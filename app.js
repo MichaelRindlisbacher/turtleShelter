@@ -389,10 +389,17 @@ app.get('/event/:id', (req, res) => {
 
 // Route to edit an event
 app.get('/event/:id/edit', (req, res) => {
-  const eventId = req.params.id;
+  const eventId = req.params.id;  // Ensure eventId is defined here
 
   db('event')
-    .where('event_id', eventId)
+    .leftJoin('coordinator', 'event.coordinator_id', '=', 'coordinator.coordinator_id')
+    .select(
+      'event.*',
+      'coordinator.coord_first_name',
+      'coordinator.coord_last_name',
+      'coordinator.coord_phone'
+    )
+    .where('event.event_id', eventId)  // Using eventId correctly
     .first()
     .then(event => {
       if (event) {
@@ -407,11 +414,12 @@ app.get('/event/:id/edit', (req, res) => {
     });
 });
 
-// Route to update an event
+
+// Route to update an event and its coordinator
 app.post('/event/:id/edit', (req, res) => {
   const eventId = req.params.id;
 
-  // Ensure that all fields are properly set
+  // Ensure that all fields are properly set for the event
   const updatedEvent = {
     activity: req.body.activity,
     event_street_address: req.body.event_street_address,
@@ -435,18 +443,41 @@ app.post('/event/:id/edit', (req, res) => {
     num_team_members: req.body.num_team_members ? parseInt(req.body.num_team_members) : null,
   };
 
-  db('event')
-    .where('event_id', eventId)
-    .update(updatedEvent)
-    .then(() => {
-      // Redirect back to the events page
-      res.redirect('/events');
-    })
-    .catch((error) => {
-      console.error('Error updating event:', error);
-      res.status(500).send('Error updating event');
-    });
+  // Ensure that all fields are properly set for the coordinator
+  const updatedCoordinator = {
+    coord_first_name: req.body.coord_first_name,
+    coord_last_name: req.body.coord_last_name,
+    coord_phone: req.body.coord_phone,
+  };
+
+  // Start a transaction to update both the event and coordinator tables
+  db.transaction(trx => {
+    // Update the event
+    trx('event')
+      .where('event_id', eventId)
+      .update(updatedEvent)
+      .then(() => {
+        // Update the coordinator
+        return trx('coordinator')
+          .where('coordinator_id', req.body.coordinator_id) // Use the coordinator_id from the form
+          .update(updatedCoordinator);
+      })
+      .then(() => {
+        // Commit the transaction
+        trx.commit();
+        // Redirect back to the events page
+        res.redirect('/events');
+      })
+      .catch(error => {
+        // Rollback the transaction in case of error
+        trx.rollback();
+        console.error('Error updating event and coordinator:', error);
+        res.status(500).send('Error updating event and coordinator');
+      });
+  });
 });
+
+
 
 //DELETE an event
 app.post('/event/:id/delete', async (req, res) => {

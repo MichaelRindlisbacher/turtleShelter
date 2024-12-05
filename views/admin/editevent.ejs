@@ -9,7 +9,24 @@
   <h1>Edit Event</h1>
 
   <form action="/event/<%= event.event_id %>/edit" method="POST">
-    <!-- Activity Field (Radio buttons for Sewing, Non-sewing, and Both) -->
+    <!-- Coordinator Fields -->
+    <input type="hidden" name="coordinator_id" value="<%= event.coordinator_id %>">
+    <div>
+      <label for="coord_first_name">Coordinator First Name:</label>
+      <input type="text" name="coord_first_name" value="<%= event.coord_first_name %>" oninput="this.value = this.value.toUpperCase()">
+    </div>
+
+    <div>
+      <label for="coord_last_name">Coordinator Last Name:</label>
+      <input type="text" name="coord_last_name" value="<%= event.coord_last_name %>" oninput="this.value = this.value.toUpperCase()">
+    </div>
+
+    <div>
+      <label for="coord_phone">Coordinator Phone:</label>
+      <input type="tel" name="coord_phone" value="<%= event.coord_phone %>">
+    </div>
+
+    <!-- Common Fields -->
     <div>
       <label for="activity">Activity:</label>
       <input type="radio" name="activity" value="S" <%= event.activity === 'S' ? 'checked' : '' %>> Sewing
@@ -17,7 +34,6 @@
       <input type="radio" name="activity" value="B" <%= event.activity === 'B' ? 'checked' : '' %>> Both
     </div>
 
-    <!-- Event Address Fields -->
     <div>
       <label for="event_street_address">Event Street Address:</label>
       <input type="text" name="event_street_address" value="<%= event.event_street_address %>" oninput="this.value = this.value.toUpperCase()">
@@ -38,85 +54,31 @@
       <input type="text" name="event_zip" value="<%= event.event_zip %>">
     </div>
 
-    <!-- Expected Participants -->
     <div>
       <label for="num_expected_participants">Expected Participants:</label>
       <input type="number" name="num_expected_participants" value="<%= event.num_expected_participants %>">
     </div>
 
-    <!-- Expected Duration -->
     <div>
       <label for="expected_duration">Expected Duration (hours):</label>
       <input type="number" name="expected_duration" value="<%= event.expected_duration %>">
     </div>
 
-    <!-- Option Number -->
-    <div>
-      <label for="option_num">Option Number:</label>
-      <input type="number" name="option_num" value="<%= event.option_num %>">
-    </div>
-
-    <!-- Event Date -->
     <div>
       <label for="date">Event Date:</label>
       <input type="datetime-local" name="date" value="<%= new Date(event.date).toISOString().slice(0, 16) %>">
     </div>
 
-    <!-- Start Time -->
     <div>
       <label for="start_time">Start Time:</label>
       <input type="datetime-local" name="start_time" value="<%= new Date(event.start_time).toISOString().slice(0, 16) %>">
     </div>
 
-    <!-- Jen Story -->
     <div>
       <label for="jen_story">Jen Story (Y/N):</label>
       <input type="text" name="jen_story" value="<%= event.jen_story %>" oninput="this.value = this.value.toUpperCase()">
     </div>
 
-    <!-- Actual Participants -->
-    <div>
-      <label for="num_actual_participants">Actual Participants:</label>
-      <input type="number" name="num_actual_participants" value="<%= event.num_actual_participants %>">
-    </div>
-
-    <!-- Actual Duration -->
-    <div>
-      <label for="actual_duration">Actual Duration (hours):</label>
-      <input type="number" name="actual_duration" value="<%= event.actual_duration %>">
-    </div>
-
-    <!-- Number of Pockets -->
-    <div>
-      <label for="num_pockets">Number of Pockets:</label>
-      <input type="number" name="num_pockets" value="<%= event.num_pockets %>">
-    </div>
-
-    <!-- Number of Collars -->
-    <div>
-      <label for="num_collars">Number of Collars:</label>
-      <input type="number" name="num_collars" value="<%= event.num_collars %>">
-    </div>
-
-    <!-- Number of Envelopes -->
-    <div>
-      <label for="num_envelopes">Number of Envelopes:</label>
-      <input type="number" name="num_envelopes" value="<%= event.num_envelopes %>">
-    </div>
-
-    <!-- Number of Vests -->
-    <div>
-      <label for="num_vests">Number of Vests:</label>
-      <input type="number" name="num_vests" value="<%= event.num_vests %>">
-    </div>
-
-    <!-- Total Products -->
-    <div>
-      <label for="total_products">Total Products:</label>
-      <input type="number" name="total_products" value="<%= event.total_products %>">
-    </div>
-
-    <!-- Status -->
     <div>
       <label for="status">Status:</label>
       <select name="status">
@@ -127,11 +89,48 @@
       </select>
     </div>
 
-    <!-- Number of Team Members -->
     <div>
       <label for="num_team_members">Number of Team Members:</label>
       <input type="number" name="num_team_members" value="<%= event.num_team_members %>">
     </div>
+
+    <% if (event.status === 'COMPLETED') { %>
+      <!-- Fields for Completed Events -->
+      <div>
+        <label for="num_actual_participants">Actual Participants:</label>
+        <input type="number" name="num_actual_participants" value="<%= event.num_actual_participants %>">
+      </div>
+
+      <div>
+        <label for="actual_duration">Actual Duration (hours):</label>
+        <input type="number" name="actual_duration" value="<%= event.actual_duration %>">
+      </div>
+
+      <div>
+        <label for="num_pockets">Number of Pockets:</label>
+        <input type="number" name="num_pockets" value="<%= event.num_pockets %>">
+      </div>
+
+      <div>
+        <label for="num_collars">Number of Collars:</label>
+        <input type="number" name="num_collars" value="<%= event.num_collars %>">
+      </div>
+
+      <div>
+        <label for="num_envelopes">Number of Envelopes:</label>
+        <input type="number" name="num_envelopes" value="<%= event.num_envelopes %>">
+      </div>
+
+      <div>
+        <label for="num_vests">Number of Vests:</label>
+        <input type="number" name="num_vests" value="<%= event.num_vests %>">
+      </div>
+
+      <div>
+        <label for="total_products">Total Products:</label>
+        <input type="number" name="total_products" value="<%= event.total_products %>">
+      </div>
+    <% } %>
 
     <!-- Submit Button -->
     <button type="submit">Save Changes</button>
