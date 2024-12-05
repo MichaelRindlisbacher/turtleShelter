@@ -84,8 +84,11 @@ h4 {
 .event-actions {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center; /* Centers buttons vertically */
+  align-items: center; /* Optional: Centers buttons horizontally */
+  gap: 10px; /* Adds spacing between buttons */
 }
+
 
 button {
   background-color: #16a085;
@@ -182,8 +185,9 @@ a:hover {
             <div class="event-card">
               <div class="event-summary">
                 <p><b>Location:</b> <%= event.event_city %>, <%= event.event_state %></p>
-                <p><b>Requested Date:</b> <%= new Date(event.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
-                <p><b>Requested Time:</b> <%= new Date(event.start_time).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) %> (<%= new Date(event.start_time).toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ')[2] %>)</p>                <p><b>Expected Participants:</b> <%= event.num_expected_participants %></p>
+                <p><b>Requested Date:</b> <%= new Date(event.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %></p>
+                <p><b>Requested Time:</b> <%= new Date(event.start_time).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) %> (<%= new Date(event.start_time).toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ')[2] %>)</p>
+                <p><b>Expected Participants:</b> <%= event.num_expected_participants %></p>
                 <p><b>Expected Duration:</b> <%= event.expected_duration %> hours</p>
                 <p><b>Event Activity:</b> 
                   <% if (event.activity === 'S') { %>
@@ -196,7 +200,25 @@ a:hover {
                     Unknown
                   <% } %>
                 </p>
+                <p><b>Jen's Story:</b> <%= event.jen_story %></p>
+                <p><b>Event Status:</b> <%= event.status %></p>
+                <p><b>Team Members Needed:</b> <%= event.num_team_members %></p>
+                <p><b>Coordinator:</b> 
+                  <% if (event.coord_first_name && event.coord_last_name) { %>
+                    <%= event.coord_first_name %> <%= event.coord_last_name %>
+                  <% } else { %>
+                    UNKNOWN
+                  <% } %>
+                </p>
+                <p><b>Coordinator Phone:</b>
+                  <% if (event.coord_phone) { %>
+                  <%= event.coord_phone %>
+                  <% } else { %>
+                    UNKNOWN
+                  <% } %>
+                </p>
               </div>
+
               <div class="event-actions">
                 <!-- View Button -->
                 <form action="/event/<%= event.event_id %>" method="GET">
@@ -243,7 +265,23 @@ a:hover {
                     Unknown
                   <% } %>
                 </p>
-                
+                <p><b>Jen's Story:</b> <%= event.jen_story %></p>
+                <p><b>Event Status:</b> <%= event.status %></p>
+                <p><b>Team Members Needed:</b> <%= event.num_team_members %></p>
+                <p><b>Coordinator:</b> 
+                  <% if (event.coord_first_name && event.coord_last_name) { %>
+                    <%= event.coord_first_name %> <%= event.coord_last_name %>
+                  <% } else { %>
+                    UNKNOWN
+                  <% } %>
+                </p>
+                <p><b>Coordinator Phone:</b>
+                  <% if (event.coord_phone) { %>
+                  <%= event.coord_phone %>
+                  <% } else { %>
+                    UNKNOWN
+                  <% } %>
+                </p>     
               </div>
               <div class="event-actions">
                 <!-- View Button -->
@@ -278,8 +316,8 @@ a:hover {
             <div class="event-card">
               <div class="event-summary">
                 <p><b>Location:</b> <%= event.event_city %>, <%= event.event_state %></p>
-                <p><b>Approved Date:</b> <%= new Date(event.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
-                <p><b>Approved Time:</b> <%= new Date(event.start_time).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) %> (<%= new Date(event.start_time).toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ')[2] %>)</p>
+                <p><b>Requested Date:</b> <%= new Date(event.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %></p>
+                <p><b>Requested Time:</b> <%= new Date(event.start_time).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) %> (<%= new Date(event.start_time).toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ')[2] %>)</p>
                 <p><b>Expected Participants:</b> <%= event.num_expected_participants %></p>
                 <p><b>Expected Duration:</b> <%= event.expected_duration %> hours</p>
                 <p><b>Event Activity:</b> 
@@ -293,8 +331,23 @@ a:hover {
                     Unknown
                   <% } %>
                 </p>
-                
-                
+                <p><b>Jen's Story:</b> <%= event.jen_story %></p>
+                <p><b>Event Status:</b> <%= event.status %></p>
+                <p><b>Team Members Needed:</b> <%= event.num_team_members %></p>
+                <p><b>Coordinator:</b> 
+                  <% if (event.coord_first_name && event.coord_last_name) { %>
+                    <%= event.coord_first_name %> <%= event.coord_last_name %>
+                  <% } else { %>
+                    UNKNOWN
+                  <% } %>
+                </p>
+                <p><b>Coordinator Phone:</b>
+                  <% if (event.coord_phone) { %>
+                  <%= event.coord_phone %>
+                  <% } else { %>
+                    UNKNOWN
+                  <% } %>
+                </p>
               </div>
 
               <div class="event-actions">
@@ -330,12 +383,12 @@ a:hover {
           <% group.events.forEach(function(event) { %>
             <div class="event-card">
               <div class="event-summary">
-                <b><p>Location: </b><%= event.event_city %>, <%= event.event_state %></p>
-                <p><b>Date:</b> <%= new Date(event.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %>
-                <p><b>Time:</b> <%= new Date(event.start_time).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) %> (<%= new Date(event.start_time).toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ')[2] %>)</p>                
-                <b><p>Participants:</b> <%= event.num_actual_participants %></p>
-                <b><p>Event Duration:</b> <%= event.actual_duration %> hours</p>
-                <b><p>Event Activity:</b>
+                <p><b>Location:</b> <%= event.event_city %>, <%= event.event_state %></p>
+                <p><b>Date:</b> <%= new Date(event.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %></p>
+                <p><b>Time:</b> <%= new Date(event.start_time).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) %> (<%= new Date(event.start_time).toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ')[2] %>)</p>
+                <p><b>Participants:</b> <%= event.num_actual_participants %></p>
+                <p><b>Event Duration:</b> <%= event.actual_duration %> hours</p>
+                <p><b>Event Activity:</b>
                   <% if (event.activity === 'S') { %>
                     Sewing
                   <% } else if (event.activity === 'N') { %>
@@ -346,19 +399,39 @@ a:hover {
                     Unknown
                   <% } %>
                 </p>
-                
+                <p><b>Pockets Produced:</b> <%= event.num_pockets %></p>
+                <p><b>Collars Produced:</b> <%= event.num_collars %></p>
+                <p><b>Envelopes Produced:</b> <%= event.num_envelopes %></p>
+                <p><b>Vests Produced:</b> <%= event.num_vests %></p>
+                <p><b>Total Products:</b> <%= event.total_products %></p>
+                <p><b>Event Status:</b> <%= event.status %></p>
+                <p><b>Team Members:</b> <%= event.num_team_members %></p>
+                <p><b>Coordinator:</b> 
+                  <% if (event.coord_first_name && event.coord_last_name) { %>
+                    <%= event.coord_first_name %> <%= event.coord_last_name %>
+                  <% } else { %>
+                    UNKNOWN
+                  <% } %>
+                </p>
+                <p><b>Coordinator Phone:</b>
+                  <% if (event.coord_phone) { %>
+                  <%= event.coord_phone %>
+                  <% } else { %>
+                    UNKNOWN
+                  <% } %>
+                </p>
               </div>
               <div class="event-actions">
                 <!-- View Button -->
                 <form action="/event/<%= event.event_id %>" method="GET">
                   <button type="submit" class="button">View</button>
                 </form>
-              
+                
                 <!-- Edit Button -->
                 <form action="/event/<%= event.event_id %>/edit" method="GET">
                   <button type="submit" class="button">Edit</button>
                 </form>
-              
+                
                 <!-- Delete Button -->
                 <form action="/event/<%= event.event_id %>/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete this event?');">
                   <button type="submit" class="button">Delete</button>
@@ -368,7 +441,7 @@ a:hover {
           <% }); %>
         </div>
       <% }); %>
-    <% } %>
+    <% } %>    
   </div>
 </body>
 </html>
