@@ -4,65 +4,203 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Volunteer Sign Up - TSP</title>
-    <link rel="icon"  type="image/png" href="/images/logo.png">
     <link rel="stylesheet" href="/styles/general.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        General Styles
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f9f9; /* Soft light background */
+            color: black;
+            padding-top: 50px; /* Adjusted for a shorter navbar */
+        }
+
+        header {
+            background-color: #A9A9A9; /* Teal background for a fresh look */
+            color: white;
+            padding: 10px 0;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #A9A9A9; /* Consistent navbar background */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 8px 0;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+            flex-grow: 1;
+            justify-content: flex-end;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            margin-right: 20px;
+            font-size: 14px;
+            padding: 8px 12px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1A1A1A;
+            font-weight: 1200;
+            font-size: 2rem;
+            margin: 40px 0;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #1A1A1A;
+            border-bottom: 2px solid #1A1A1A;
+            padding-bottom: 5px;
+        }
+
+        .form-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 25px;
+            margin-top: 50px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: #1A1A1A;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        input[type="radio"] {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            background-color: #1A1A1A;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #A9A9A9;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                margin-top: 100px;
+                padding: 20px;
+            }
+
+            button {
+                padding: 10px 15px;
+            }
+        }
+
+    </style>
 </head>
 <body>
     <header>
         <%- include('../partials/navbar.ejs') %>
-      </header>
+    </header>
 
     <main>
-        <h1>Volunteer Signup</h1>
-        <form action="/volunteer" method="POST">
-            <h2>Contact Info</h2>
-            <label for="volFirstName">First Name:</label>
-            <input type="text" id="volFirstName" name="volFirstName" required><br>
+        <div class="form-container">
+            <h1>Volunteer Signup</h1>
+            <form action="/volunteer" method="POST">
+                <div class="form-group">
+                    <h2>Contact Info</h2>
+                    <label for="volFirstName">First Name:</label>
+                    <input type="text" id="volFirstName" name="volFirstName" required>
 
-            <label for="volLastName">Last Name:</label>
-            <input type="text" id="volLastName" name="volLastName" required><br>
+                    <label for="volLastName">Last Name:</label>
+                    <input type="text" id="volLastName" name="volLastName" required>
 
-            <label for="volEmail">Email:</label>
-            <input type="email" id="volEmail" name="volEmail" required><br>
+                    <label for="volEmail">Email:</label>
+                    <input type="email" id="volEmail" name="volEmail" required>
 
-            <label for="volPhone">Phone:</label>
-            <input type="tel" id="volPhone" name="volPhone" required><br>
+                    <label for="volPhone">Phone:</label>
+                    <input type="tel" id="volPhone" name="volPhone" required>
+                </div>
 
-            <label for="volStreetAddress">Street Address:</label>
-            <input type="text" id="volStreetAddress" name="volStreetAddress" required><br>
+                <div class="form-group">
+                    <label for="volStreetAddress">Street Address:</label>
+                    <input type="text" id="volStreetAddress" name="volStreetAddress" required>
 
-            <label for="volCity">City:</label>
-            <input type="text" id="volCity" name="volCity" required><br>
+                    <label for="volCity">City:</label>
+                    <input type="text" id="volCity" name="volCity" required>
 
-            <label for="volState">State:</label>
-            <input type="text" id="volState" name="volState" required><br>
+                    <label for="volState">State:</label>
+                    <input type="text" id="volState" name="volState" required>
 
-            <label for="volZip">Zip Code:</label>
-            <input type="number" id="volZip" name="volZip" required><br>
+                    <label for="volZip">Zip Code:</label>
+                    <input type="number" id="volZip" name="volZip" required>
+                </div>
 
-            <h2>How did you hear about this opportunity?</h2>
-            <label for="source">Source:</label>
-            <select id="source" name="source" required>
-                <option value="Social Media">Social Media</option>
-                <option value="Word of Mouth">Word of Mouth</option>
-                <option value="Website">Website</option>
-                <option value="Other">Other</option>
-            </select><br>
+                <div class="form-group">
+                    <h2>How did you hear about this opportunity?</h2>
+                    <label for="source">Source:</label>
+                    <select id="source" name="source" required>
+                        <option value="Social Media">Social Media</option>
+                        <option value="Word of Mouth">Word of Mouth</option>
+                        <option value="Website">Website</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
 
-            <h2>Sewing Level</h2>
-            <label><input type="radio" name="sewingLevel" value="B" required> Beginner</label>
-            <label><input type="radio" name="sewingLevel" value="I" required> Intermediate</label>
-            <label><input type="radio" name="sewingLevel" value="E" required> Experienced</label><br>
+                <div class="form-group">
+                    <h2>Sewing Level</h2>
+                    <label><input type="radio" name="sewingLevel" value="B" required> Beginner</label>
+                    <label><input type="radio" name="sewingLevel" value="I" required> Intermediate</label>
+                    <label><input type="radio" name="sewingLevel" value="E" required> Experienced</label>
+                </div>
 
-            <h2>Volunteer Hours</h2>
-            <label for="numHours">Number of hours willing to volunteer per month:</label>
-            <input type="number" id="numHours" name="numHours" min="1" required><br>
+                <div class="form-group">
+                    <h2>Volunteer Hours</h2>
+                    <label for="numHours">Number of hours willing to volunteer per month:</label>
+                    <input type="number" id="numHours" name="numHours" min="1" required>
+                </div>
 
-            <button type="submit">Sign Up</button>
-        </form>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
     </main>
 </body>
 </html>

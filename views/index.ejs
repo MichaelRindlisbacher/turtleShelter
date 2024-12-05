@@ -15,24 +15,36 @@
       <%- include('partials/navbar.ejs') %>
     </header>
     <main class="intro">
-        <h2>Helping to save lives of people experiencing homelessness...</h2>
+        <h2>Helping to save lives of people experiencing homelessness</h2>
         <h1>STARTS WITH YOU</h1><br>
         <ul class="intro-buttons">
             <li><a href="/youhelp/donate"><button>DONATE NOW</button></a></li>
             <li><a href="/about"><button>LEARN MORE</button></a></li>
         </ul>
     </main>
-    <div class="wrapper">
-        <div class="counter-container">
-            <div class="text-box">
-              <h1><%= vestCount || 5900 %></h1>
-              <p>Turtle Shelter Vests Distributed</p>
-            </div>
-          </div>
-        <div class="img-container">
-          <img src="/images/making.jpg">
-        </div>
+    <div class="about-wrapper">
+      <h1>What is a turtle shelter vest?<br><br> A high tech but simple solution to help save lives -
+        a portable "shelter" you can carry with you, just like a turtle...and YOU can help!</h2><br>
+      <h3>One winter when Jen was homeless, 7 of her friends froze to death.  
+
+        <h3>Jen is no longer homeless and has figured out a solution:</h3>
+         <h3>High tech foam vests that are inexpensive,
+        keep a person warm to<br>10 degree below zero, help SAVE lives and alleviate suffering.</h3>
+        
+        <h3>YOU can request vests for your community - and you <br>can make vests and haveyour friends, business colleagues, <br>church members or club make vests, too! </h3>
+
+    </div>
+    <div class="counter-wrapper">
+      <div class="counter-content">
+        <h1 class="counter-number"><%= vestCount || 5900 %></h1>
+        <h2>vests distributed</h2>
+        <p class="impact-text">
+          Our Turtle Shelter initiative has distributed thousands of vests, 
+          providing warmth and safety for people in need. Your support has made 
+          this incredible impact possible.
+        </p>
       </div>
+    </div>    
     <script src="/scripts/script.js"></script>
 </body>
 </html>

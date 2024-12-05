@@ -7,6 +7,86 @@
     <title>Success</title>
     <link rel="icon"  type="image/png" href="/images/logo.png">
     <link rel="stylesheet" href="/public/styles.css"> <!-- Link to your CSS -->
+    <style>
+    /* General body styles */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f9f9; /* Light background color */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full screen height */
+        }
+
+        /* Container styling */
+        .container {
+            background-color: white;
+            padding: 40px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            margin: auto;
+        }
+
+        /* Headline styles */
+        .container h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #1a1a1a; /* Dark gray for contrast */
+        }
+
+        /* Paragraph styling */
+        .container p {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: #666; /* Soft gray for supporting text */
+            line-height: 1.5;
+        }
+
+        /* Link styling */
+        .container a {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #1ABC9C; /* Teal button background */
+            color: white;
+            font-size: 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            font-weight: bold;
+        }
+
+        .container a:hover {
+            background-color: #0097A7; /* Darker teal for hover effect */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .container h1 {
+                font-size: 1.5rem;
+            }
+
+            .container p {
+                font-size: 0.9rem;
+            }
+
+            .container a {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
 </head>
 <body>
     <div class="container">
