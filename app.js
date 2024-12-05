@@ -74,11 +74,6 @@ app.get('/about/homeless_cold', (req, res) => {
     res.render('about/homeless_cold', {req: req});
   });
 
-// get directors page
-app.get('/about/directors', (req, res) => {
-    res.render('about/directors', {req: req});
-  });
-
 // get vest tech page
 app.get('/about/vest_tech', (req, res) => {
     res.render('about/vest_tech', {req: req});
