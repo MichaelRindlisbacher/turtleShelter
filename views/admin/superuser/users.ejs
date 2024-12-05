@@ -138,6 +138,18 @@
             width: 100px;  /* Space between label and content */
         }
 
+        button {
+            background-color: #16a085;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
@@ -145,6 +157,9 @@
       <%- include('../../partials/navbar.ejs') %>
       </header>
       <h1>Users</h1>
+      <form action="/adduser" method="GET">
+        <button type="submit" class="button" style="float: right;">Add User</button>
+      </form>
       <div class="user-container">
         <% users.forEach((user) => { %>
             <div class="user-card">

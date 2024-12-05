@@ -56,8 +56,10 @@ app.get('/', (req, res) => {
 
 // get login
 app.get('/login', (req, res) => {
-    res.render('login', {req: req});
-  });
+  req.session.isSuperAdmin = false; // Reset super admin status
+  req.session.isAdmin = false; // Reset super admin status
+  res.render('login', {req: req});
+});
 
 // get story
 app.get('/story', (req, res) => {
@@ -801,6 +803,27 @@ app.post('/addvolunteer', async (req, res) => {
   } catch (error) {
     console.error('Error updating volunteer:', error);
     res.status(500).send('An error occurred while updating the volunteer.');
+  }
+});
+
+// get adduser
+app.get('/adduser', (req, res) => {
+  res.render('admin/superuser/adduser', {req: req});
+});
+
+// Route to handle the form submission for editing the user details
+app.post('/adduser', async (req, res) => {
+  const { user_first_name, user_last_name, username, password } = req.body;
+
+  try {
+    // Update the user details in the database
+    await db('credentials').insert({ user_first_name, user_last_name, username, password });
+
+    // Redirect back to the users page
+    res.redirect('/superuser/users');
+  } catch (error) {
+    console.error('Error updating user details:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 
