@@ -35,36 +35,6 @@
                     <input type="radio" id="N" name="activity" value="N"> Non-sewing
                     <input type="radio" id="B" name="activity" value="B"> Both
                 </div>
-                <br>
-                <div class="form-group">
-                    <label for="toggleCheckBox">Have you requested an event before?</label>
-                    <input type="checkbox" id="toggleCheckbox"> Yes
-                    <p id="phoneLabel" class="hidden"><b>Phone Number</b></p>
-                    <input type="number" id="hiddenContent" class="hidden" placeholder="Phone Number">
-                    </div>
-                    <br>
-
-                    <script>
-                // Get the checkbox and the hidden content
-                const checkbox = document.getElementById('toggleCheckbox');
-                const hiddenContent = document.getElementById('hiddenContent');
-                const coordinator = document.getElementById('coordinator'); 
-                const phoneLabel = document.getElementById('phoneLabel');  
-
-                // Add an event listener to toggle the visibility of the hidden content
-                checkbox.addEventListener('change', () => {
-                    if (checkbox.checked) {
-                        // Show phone label and hidden content
-                        hiddenContent.classList.remove('hidden'); 
-                        phoneLabel.classList.remove('hidden');   
-
-                    } else {
-                        // Hide phone label and hidden content
-                        hiddenContent.classList.add('hidden'); 
-                        phoneLabel.classList.add('hidden');   
-                    }
-                });
-                    </script>                  
 
             <!-- Address Section -->
             <section class="form-section">
