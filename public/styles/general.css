@@ -19,6 +19,31 @@ a:visited {
   font-weight: bold;
 }
 
+/* Footer Styles */
+.footer {
+  font-family: 'Arial', sans-serif;
+  background-color: #454545; /* Set background color */
+  color: white; /* Text color */
+  padding: 20px 0; /* Padding for spacing */
+  text-align: center; /* Center-align the text */
+  font-size: 14px; /* Adjust text size */
+  clear: both;
+  margin-top: 20px;
+  text-align: center;
+  z-index: 1;
+  clear: both;
+  position: relative;
+}
+
+.footer a {
+  color: #f1f1f1; /* Light color for links */
+  text-decoration: none; /* Remove underline */
+}
+
+.footer a:hover {
+  text-decoration: underline; /* Underline on hover */
+}
+
 .navbar {
   display: flex;
   align-items: center;
