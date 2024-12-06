@@ -9,42 +9,170 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+      /* About Wrapper */
+/* About Section */
+.about-wrapper {
+    max-width: 1100px;
+    padding: 40px;
+    text-align: left;
+    align-items: center;
+    margin: 0 auto; /* Centers the container horizontally */
+}
+
+/* Make the About Us text above the image */
+.about-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+/* Image Styling */
+.about-image {
+    max-width: 40%; /* Adjust size as needed */
+    height: auto;
+    margin-left: 20px;
+}
+
+/* About Us Text Styling */
+.about-wrapper p {
+    font-size: 18px;
+    color: #333;
+    line-height: 1.6;
+    max-width: 55%;
+    margin-top: 0;
+}
+
+.about-wrapper h1 {
+    font-size: 75px;
+    color: #16a085;
+    line-height: 1.6;
+    max-width: 55%;
+    margin-top: 0;
+    text-align: center;
+    padding-left: 200px;
+}
+
+.about-wrapper h2 {
+  font-size: 24px;
+  color: #444;
+  margin-bottom: 15px;
+}
+
+.about-wrapper h3 {
+  font-size: 20px;
+  color: #444;
+  margin-bottom: 15px;
+  font-weight: normal;
+}
+
+.about-wrapper .about-text {
+  flex: 2; /* Make the text section take up more space */
+}
+
+.about-wrapper .about-image {
+  flex: 1; /* The image will take up 1/3 of the space in the flex container */
+  max-width: 400px; /* Limit the image width */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 8px; /* Slightly round corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+  object-fit: contain; /* Ensure the image doesn't distort */
+}
+
+
+/* Counter Wrapper */
+.counter-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  margin-top: 40px; /* Add some space above the counter section */
+  position: relative;
+  overflow: hidden;
+}
+
+.counter-content {
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fade-in 1.2s ease-out forwards;
+}
+
+.counter-number {
+  font-size: 12rem;
+  font-weight: bold;
+  color: #16a085;
+  margin: 0;
+}
+
+.impact-text {
+  font-size: 18px;
+  color: #333;
+  margin-top: 15px;
+  line-height: 1.5;
+  max-width: 500px;
+  text-align: center;
+}
+
+.counter-wrapper h2 {
+  margin-top: 10px;
+  font-size: 30px;
+  color: #444;
+}
+
+
+/* Fade-in Animation */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+    </style>
 </head>
 <body>
     <header>
       <%- include('partials/navbar.ejs') %>
     </header>
     <main class="intro">
-        <h2>Helping to save lives of people experiencing homelessness</h2>
-        <h1>STARTS WITH YOU</h1><br>
-        <ul class="intro-buttons">
-            <li><a href="/youhelp/donate"><button>DONATE NOW</button></a></li>
-            <li><a href="/about"><button>LEARN MORE</button></a></li>
-        </ul>
-    </main>
-    <div class="about-wrapper">
-      <h1>What is a turtle shelter vest?<br><br> A high tech but simple solution to help save lives -
-        a portable "shelter" you can carry with you, just like a turtle...and YOU can help!</h2><br>
-      <h3>One winter when Jen was homeless, 7 of her friends froze to death.  
-
-        <h3>Jen is no longer homeless and has figured out a solution:</h3>
-         <h3>High tech foam vests that are inexpensive,
-        keep a person warm to<br>10 degree below zero, help SAVE lives and alleviate suffering.</h3>
-        
-        <h3>YOU can request vests for your community - and you <br>can make vests and haveyour friends, business colleagues, <br>church members or club make vests, too! </h3>
-
+      <h2>Helping to save lives of people experiencing homelessness</h2>
+      <h1>STARTS WITH YOU</h1><br>
+      <ul class="intro-buttons">
+          <li><a href="/youhelp/donate"><button>DONATE NOW</button></a></li>
+          <li><a href="/about"><button>LEARN MORE</button></a></li>
+      </ul>
+  </main>
+  <div class="about-wrapper">
+    <h1>About Us</h1>
+    <div class="about-content">
+        <img src="/images/making.jpg" alt="Turtle Shelter Vest" class="about-image">
+        <p>
+            A high-tech but simple solution to help save lives - a portable "shelter" you can carry with you, just like a turtle...and YOU can help!<br> 
+            <br>One winter when Jen was homeless, 7 of her friends froze to death. Jen is no longer homeless and has figured out a solution: 
+            high-tech foam vests that are inexpensive, keep a person warm to 10 degrees below zero, help SAVE lives, and alleviate suffering.<br> 
+            <br>YOU can request vests for your community - and you can make vests and have your friends, business colleagues, church members, or club make vests, too!
+        </p>
     </div>
-    <div class="counter-wrapper">
-      <div class="counter-content">
+</div>
+<div class="counter-wrapper">
+    <div class="counter-content">
         <h1 class="counter-number"><%= vestCount || 5900 %></h1>
         <h2>vests distributed</h2>
         <p class="impact-text">
-          Our Turtle Shelter initiative has distributed thousands of vests, 
-          providing warmth and safety for people in need. Your support has made 
-          this incredible impact possible.
+            Our Turtle Shelter initiative has distributed thousands of vests, 
+            providing warmth and safety for people in need. Your support has made 
+            this incredible impact possible.
         </p>
-      </div>
-    </div>    
-    <script src="/scripts/script.js"></script>
+    </div>
+</div>
+<script src="/scripts/script.js"></script>
+
 </body>
 </html>
