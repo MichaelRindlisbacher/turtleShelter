@@ -170,7 +170,7 @@ body {
 
 /* Header and Navbar Styles */
 header {
-    background-color: #A9A9A9; /* Teal background for a fresh look */
+    background-color: #454545; /* Teal background for a fresh look */
     color: white;
     padding: 10px 0; /* Reduced padding for a more compact header */
 }
@@ -182,7 +182,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #A9A9A9
+    background-color: #454545
     ; /* Teal background */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 1000;
@@ -211,7 +211,7 @@ header {
 .dropdown-menu {
     display: none;
     position: absolute;
-    background-color: #A9A9A9; /* White background for dropdown */
+    background-color: #454545; /* White background for dropdown */
     min-width: 160px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
